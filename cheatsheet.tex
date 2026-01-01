@@ -17,8 +17,9 @@
 
 \geometry{margin=0.5cm}
 \setlength{\parindent}{0pt}
-
-% ---------------- Title ----------------
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{0em}{0em}
+% \everymath{\displaystyle}
 
 
 \begin{document}
@@ -29,286 +30,139 @@
 
 \section{Linear regression}
 
-\textbf{Định nghĩa bài toán}
-
-\textbf{Đầu vào}
-
-Cho tập dữ liệu gồm $N$ mẫu:
-\begin{itemize}
-    \item Tập các vector đặc trưng:
-    \[
-        \mathbf{x}_n = [x_{n,0}, x_{n,1}, \dots, x_{n,D-1}]^T,
-        \quad n = 1, \dots, N
-    \]
-    với $x_{n,0} = 1$.
-    
-    \item Vector nhãn:
-    \[
-        \mathbf{t} = [t_1, t_2, \dots, t_N]^T
-    \]
-\end{itemize}
-
-Dữ liệu được tổ chức dưới dạng:
-\[
-\mathbf{X} =
-\begin{bmatrix}
-1 & x_{1,1} & \dots & x_{1,D-1} \\
-1 & x_{2,1} & \dots & x_{2,D-1} \\
-\vdots & \vdots & \ddots & \vdots \\
-1 & x_{N,1} & \dots & x_{N,D-1}
-\end{bmatrix},
-\quad
-\mathbf{t} =
-\begin{bmatrix}
-t_1 \\ t_2 \\ \vdots \\ t_N
-\end{bmatrix}
-\]
-
-\textbf{Giả thiết}
-
-Giả sử nhãn được sinh theo mô hình:
-\begin{equation}
-t = h(\mathbf{x}) + \varepsilon
-\end{equation}
-
-Trong đó:
-\begin{itemize}
-    \item $h(\mathbf{x})$: hàm hồi quy tối ưu (chưa biết)
-    \item $\varepsilon \sim \mathcal{N}(0, \sigma^2)$: nhiễu Gauss
-\end{itemize}
-
-Các mẫu dữ liệu và nhiễu được giả thiết là \textit{i.i.d}.
-
-\textbf{Đầu ra}
-
-Mô hình hồi quy tuyến tính:
-\begin{equation}
+Mô hình:
+$
 \hat{y}(\mathbf{x}, \mathbf{w}) = \mathbf{w}^T \mathbf{x}
-\end{equation}
+$
 
-với:
-\[
-\mathbf{w} = [w_0, w_1, \dots, w_{D-1}]^T
-\]
-
-% =====================================================
-\textbf{Giải bài toán}
-
-\textbf{Nguyên tắc chung}
-
-Bài toán được giải bằng cách:
-\begin{itemize}
-    \item Xây dựng hàm hợp lý
-    \item Cực đại hóa hợp lý (Maximum Likelihood)
-\end{itemize}
 
 \textbf{Hợp lý cực đại}
 
-Với giả thiết nhiễu Gauss:
-\begin{equation}
+
+$
 p(t_n | \mathbf{x}_n, \mathbf{w}, \beta)
 = \mathcal{N}(t_n | \mathbf{w}^T \mathbf{x}_n, \beta^{-1})
-\end{equation}
+$
 
-Hàm negative log-likelihood:
-\begin{equation}
+$
 L(\mathbf{w}, \beta)
 = \beta E_D(\mathbf{w})
 - \frac{N}{2} \log \beta
 + \frac{N}{2} \log(2\pi)
-\end{equation}
+$
 
 với:
-\begin{equation}
+$
 E_D(\mathbf{w})
 = \frac{1}{2}\sum_{n=1}^N (t_n - \mathbf{w}^T \mathbf{x}_n)^2
-\end{equation}
+$
 
 \textbf{Nghiệm giải tích}
 
-Cực tiểu $E_D(\mathbf{w})$ cho nghiệm:
-\begin{equation}
+Cực tiểu $E_D(\mathbf{w})$:
+$
 \mathbf{w}_{ML} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{t}
-\end{equation}
+$
 
-Ước lượng phương sai nhiễu:
-\begin{equation}
+$
 \beta_{ML}^{-1}
 = \frac{1}{N}\sum_{n=1}^N
 (t_n - \mathbf{w}_{ML}^T\mathbf{x}_n)^2
-\end{equation}
+$
 
 \textbf{Giải thuật lặp (Gradient Descent)}
 
-Cập nhật tham số:
-\begin{equation}
+
+$
 \mathbf{w}^{(t)}
 = \mathbf{w}^{(t-1)} - \eta \nabla E_D(\mathbf{w})
-\end{equation}
+$
 
 % =====================================================
 \textbf{Hồi quy cho quan hệ phi tuyến}
 
-Ánh xạ dữ liệu sang không gian đặc trưng mới:
-\[
+$
 \mathbf{x} \rightarrow
 \boldsymbol{\phi}(\mathbf{x})
 = [\phi_0(\mathbf{x}), \dots, \phi_{M-1}(\mathbf{x})]
-\]
+$
 
-Sau đó áp dụng hồi quy tuyến tính trên không gian mới.
 
 % =====================================================
 \textbf{Đánh giá mô hình}
 
-\textbf{Dự báo}
-
-\begin{equation}
+\textbf{Dự báo:}
+$
 \hat{\mathbf{y}} = \mathbf{X}\mathbf{w}_{ML}
-\end{equation}
+$
 
 \textbf{Các độ đo}
 
-Mean Squared Error:
-\begin{equation}
+$
 \mathrm{MSE}
 = \frac{1}{N}\sum_{n=1}^N (t_n - \hat{y}_n)^2
-\end{equation}
+$
 
-Root Mean Squared Error:
-\begin{equation}
+$
 \mathrm{RMSE} = \sqrt{\mathrm{MSE}}
-\end{equation}
+$
 
 % =====================================================
 \textbf{Hạn chế quá khớp}
 
 \textbf{Ridge Regression}
 
-\begin{equation}
+$
 L(\mathbf{w})
 = \frac{1}{2}\sum_{n=1}^N (t_n - \mathbf{w}^T\mathbf{x}_n)^2
 + \frac{\lambda}{2}\mathbf{w}^T\mathbf{w}
-\end{equation}
+$
 
 Nghiệm:
-\begin{equation}
+$
 \mathbf{w}_{ridge}
 = (\lambda \mathbf{I} + \mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{t}
-\end{equation}
+$
 
-\textbf{LASSO}
-
-\begin{equation}
+\textbf{LASSO:}
+$
 L(\mathbf{w})
 = \frac{1}{2}\sum_{n=1}^N (t_n - \mathbf{w}^T\mathbf{x}_n)^2
 + \lambda \sum_{m=1}^M |w_m|
-\end{equation}
+$
 
 % =====================================================
 \textbf{Dự báo cho nhiều biến}
 
 Với $K$ biến đầu ra:
-\begin{equation}
+$
 \mathbf{W}
 = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{T}
-\end{equation}
+$
 
 Trong đó:
-\begin{itemize}
-    \item $\mathbf{T} \in \mathbb{R}^{N \times K}$
-    \item $\mathbf{W} \in \mathbb{R}^{M \times K}$
-\end{itemize}
+ $\mathbf{T} \in \mathbb{R}^{N \times K}, \mathbf{W} \in \mathbb{R}^{M \times K}$
 
 % SECTION 2: LOGISTIC REGRESSION
 % ==================================================
 \section{Logistic regression}
 
-\textbf{Giới thiệu bài toán}
 
-% --------------------------------------------------
-\textbf{Đầu vào}
 
-\textbf{Dữ liệu đầu vào}
-
-Ma trận dữ liệu:
-\[
-X =
-\begin{bmatrix}
-1 & x_{1,1} & x_{1,2} & \cdots & x_{1,(M-1)} \\
-1 & x_{2,1} & x_{2,2} & \cdots & x_{2,(M-1)} \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
-1 & x_{N,1} & x_{N,2} & \cdots & x_{N,(M-1)}
-\end{bmatrix}
-\]
-
-\begin{itemize}
-    \item Mỗi hàng tương ứng với một điểm dữ liệu
-    \item $X$ có kích thước $N \times M$
-\end{itemize}
-
-\textbf{Tập nhãn}
-
-\begin{itemize}
-    \item Bài toán có hai nhãn
-    \item Mỗi nhãn được mã hóa bằng chỉ số $\{0,1\}$
-\end{itemize}
-
-\textbf{Nhãn dữ liệu}
-
-\[
-t = (t_1, t_2, \ldots, t_N)^T
-\]
-
-\textbf{Quy ước}
-
-\begin{itemize}
-    \item $X$: ma trận dữ liệu, kích thước $N \times M$
-    \item $t$: vector nhãn
-    \item $y$: biểu diễn dạng số của nhãn
-    \item $N$: số điểm dữ liệu
-    \item $M$: số đặc trưng
-    \item $\hat{y}$: giá trị dự báo từ mô hình
-\end{itemize}
-
-% ==================================================
-\textbf{Phương pháp xây dựng mô hình}
-
-\textbf{Ý tưởng}
-
-\begin{itemize}
-    \item Hai lớp: $C_0$ và $C_1$
-    \item Mô hình dự báo xác suất $x$ thuộc lớp $C_1$
-    \item Xác suất thuộc lớp $C_0$ là $1 - \hat{y}$
-\end{itemize}
-
-Bên trong mô hình:
-\begin{enumerate}
-    \item Sử dụng mô hình tuyến tính:
-    \[
-    z = w^T x
-    \]
-    \item Đưa $z$ qua hàm sigmoid
-\end{enumerate}
-
-\textbf{Hàm sigmoid}
-
-\[
+\textbf{Hàm sigmoid:}
+$
 \sigma(z) = \frac{1}{1 + e^{-z}}
-\]
+$
 
-\textbf{Mô hình dự báo}
+\textbf{Mô hình dự báo:}
 
-\begin{equation}
+$
 \hat{y} = p(C_1|x,w) = \sigma(w^T x)
 \label{eq:logistic}
-\end{equation}
+$
 
-Quy tắc phân lớp:
-\begin{itemize}
-    \item Nếu $\hat{y} \ge \lambda$ thì $x \in C_1$
-    \item Ngược lại, $x \in C_0$
-\end{itemize}
+Nếu $\hat{y} \ge \lambda$ thì $x \in C_1$.
+Ngược lại, $x \in C_0$
 
 % ==================================================
 \textbf{Ước lượng tham số của mô hình}
@@ -316,55 +170,50 @@ Quy tắc phân lớp:
 \textbf{Xây dựng hàm mục tiêu}
 
 Với một điểm dữ liệu $(x,y)$:
-\[
+
+$
 p(y|x,w) =
 \hat{y}^y (1-\hat{y})^{1-y}
-\]
+$
 
 Với $N$ điểm dữ liệu:
-\[
-p(t|X,w) = \prod_{n=1}^{N} \hat{y}_n^{y_n} (1-\hat{y}_n)^{1-y_n}
-\]
 
-Sử dụng \textbf{negative log-likelihood}:
-\begin{equation}
+$
+p(t|X,w) = \prod_{n=1}^{N} \hat{y}_n^{y_n} (1-\hat{y}_n)^{1-y_n}
+$
+
+\textbf{Negative log-likelihood}:
+$
 L(w) = -\sum_{n=1}^{N}
-\left[
+[
 y_n \log \hat{y}_n + (1-y_n)\log(1-\hat{y}_n)
-\right]
-\label{eq:loss}
-\end{equation}
+]
+$
 
 Hàm này còn được gọi là \textbf{cross-entropy}.
 
 \textbf{Tìm hệ số của mô hình}
 
-Gradient của hàm mất mát:
-\begin{equation}
+$
 \nabla L(w) = \sum_{n=1}^{N} (\hat{y}_n - y_n)x_n
 = X^T(\hat{y} - y)
-\end{equation}
+$
 
 \textbf{Giải thuật lặp với đạo hàm bậc 2}
 
 Ma trận Hessian:
-\begin{equation}
+$
 H = \nabla^2 L(w)
 = \sum_{n=1}^{N} \hat{y}_n(1-\hat{y}_n)x_n x_n^T
 = X^T R X
-\end{equation}
+$
 
-Trong đó $R$ là ma trận đường chéo:
-\[
+$R$ là ma trận đường chéo:
+$
 R_{nn} = \hat{y}_n(1-\hat{y}_n)
-\]
+$
 
-Phương pháp sử dụng:
-\begin{itemize}
-    \item Gradient Descent
-    \item Newton--Raphson
-    \item Iterative Re-weighted Least Squares (IRLS)
-\end{itemize}
+Phương pháp sử dụng: Gradient Descent, Newton--Raphson, Iterative Re-weighted Least Squares (IRLS)
 
 % SECTION 3: SOFTMAX REGRESSION
 
@@ -372,74 +221,41 @@ Phương pháp sử dụng:
 % ==================================================
 \section{Softmax regression}
 
-\textbf{Dữ liệu đầu vào}
-
-\textbf{Ma trận dữ liệu}
-
-Giả sử tập dữ liệu đầu vào được biểu diễn bởi ma trận:
-\[
-X =
-\begin{bmatrix}
-1 & x_{1,1} & x_{1,2} & \cdots & x_{1,(M-1)} \\
-1 & x_{2,1} & x_{2,2} & \cdots & x_{2,(M-1)} \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
-1 & x_{N,1} & x_{N,2} & \cdots & x_{N,(M-1)}
-\end{bmatrix}
-\]
-trong đó $X \in \mathbb{R}^{N \times M}$.
-
-\textbf{Nhãn và biểu diễn one-hot}
-
 Mỗi nhãn được mã hóa dưới dạng véctơ one-hot kích thước $K$.
-Ví dụ với $K=4$:
-
-\begin{center}
-\begin{tabular}{ccc}
-\toprule
-Nhãn & Chỉ số & One-hot \\
-\midrule
-Chó   & 0 & [1, 0, 0, 0] \\
-Mèo  & 1 & [0, 1, 0, 0] \\
-Chuột& 2 & [0, 0, 1, 0] \\
-Thỏ  & 3 & [0, 0, 0, 1] \\
-\bottomrule
-\end{tabular}
-\end{center}
-
 % ==================================================
+
 \textbf{Mô hình tuyến tính với Softmax}
 
 \textbf{Mô hình dự báo}
 
 Ma trận tham số của mô hình:
-\[
+
+$
 W =
-\begin{bmatrix}
-w_1^T \\
-w_2^T \\
-\vdots \\
-w_K^T
-\end{bmatrix}
+[w_1,
+w_2,
+\ldots
+w_K]^T
 \in \mathbb{R}^{K \times M}
-\]
+$
 
 Các bước tính toán:
-\begin{align}
-Z &= XW^T \quad (N \times K) \\
-\hat{Y} &= \text{softmax}(Z)
-\end{align}
+$
+Z = XW^T \quad (N \times K), \\
+\hat{Y} = \text{softmax}(Z)
+$
 
-Hàm softmax được định nghĩa:
-\[
+Hàm softmax:
+$
 \hat{y}_k = \frac{\exp(z_k)}{\sum_{i=1}^{K} \exp(z_i)}
-\]
+$
 
 \textbf{Dự đoán}
 
-Nhãn dự đoán của mẫu dữ liệu được xác định bằng:
-\[
+Nhãn dự đoán:
+$
 \text{prediction} = \arg\max_k \hat{y}_k
-\]
+$
 
 % ==================================================
 \textbf{Hàm mục tiêu và tối ưu}
@@ -447,16 +263,18 @@ Nhãn dự đoán của mẫu dữ liệu được xác định bằng:
 \textbf{Hàm hợp lý}
 
 Xác suất của tập nhãn:
-\[
+
+$
 p(t|X,W) = \prod_{n=1}^{N} \prod_{k=1}^{K} \hat{y}_{n,k}^{y_{n,k}}
-\]
+$
 
 \textbf{Hàm mất mát Cross-Entropy}
 
 Hàm mất mát được xây dựng bằng cách lấy log và đổi dấu:
-\[
+
+$
 L(W) = -\sum_{n=1}^{N}\sum_{k=1}^{K} y_{n,k}\log(\hat{y}_{n,k})
-\]
+$
 
 Mục tiêu là tìm $W$ sao cho $L(W)$ đạt giá trị nhỏ nhất.
 
@@ -466,30 +284,20 @@ Mục tiêu là tìm $W$ sao cho $L(W)$ đạt giá trị nhỏ nhất.
 \textbf{Gradient Descent}
 
 Gradient của hàm mất mát đối với đầu vào softmax:
-\[
+$
 \frac{\partial L}{\partial z} = (\hat{y} - y)^T
-\]
+$
 
 Gradient theo tham số:
-\[
+$
 \Delta W = (\hat{y} - y)^T x^T
-\]
+$
 
 Cập nhật trọng số:
-\[
+$
 W \leftarrow W - \eta \Delta W
-\]
-trong đó $\eta$ là hệ số học.
+$
 
-% ==================================================
-\textbf{Mở rộng cho đường biên phi tuyến}
-
-Để xử lý dữ liệu không phân tách tuyến tính, có thể:
-\begin{itemize}
-\item Biến đổi đặc trưng sang không gian mới
-\item Sử dụng hàm cơ sở đa thức
-\item Áp dụng mạng nơ-ron để học đặc trưng
-\end{itemize}
 
 % ==================================================
 
@@ -499,103 +307,85 @@ trong đó $\eta$ là hệ số học.
 % ======================================================
 \section{MLP}
 
-\textbf{MLP: Computational Architecture View}
-
-An MLP consists of:
-\begin{itemize}
-    \item A \textbf{feature transformer}: stacked linear layers with nonlinear activations.
-    \item An \textbf{output head}:
-    \begin{itemize}
-        \item Linear head for regression
-        \item Logistic or softmax head for classification
-    \end{itemize}
-\end{itemize}
 
 \textbf{Core idea:}
 deep learning = nonlinear feature extraction + simple linear head.
 
 % ======================================================
-\textbf{MLP: Mathematical Model}
 
 \textbf{Forward Pass}
 
-Let $h^{(0)} = x$. Each hidden layer computes:
-\begin{equation}
+Let $h^{(0)} = x$; 
+$
 h^{(l)} = \phi\left(W^{(l)}h^{(l-1)} + b^{(l)}\right),
-\quad l = 1,\dots,L
-\end{equation}
-
+\\ l = 1,\dots,L
+$
 where $\phi(\cdot)$ is a nonlinear activation function.
 
 \textbf{Output Layer}
 
 \textbf{Regression:}
-\begin{equation}
+$
 \hat{y} = W^{(L+1)}h^{(L)} + b^{(L+1)}
-\end{equation}
+$
 
-\textbf{Classification (Softmax):}
-\begin{equation}
+\textbf{Classification:}
+$
 \hat{p}_k =
 \frac{\exp(w_k^\top h^{(L)} + b_k)}
 {\sum_{j}\exp(w_j^\top h^{(L)} + b_j)}
-\end{equation}
+$
 
 \textbf{Function Composition View}
 
-An MLP is a composition of functions:
-\begin{equation}
+$
 f(x;\theta) =
 f^{(L+1)} \circ \phi \circ f^{(L)} \circ \cdots \circ \phi \circ f^{(1)}(x)
-\end{equation}
+$
 
-More layers imply higher representation power.
-
-% ======================================================
-\textbf{MLP: Layers}
 
 \textbf{Fully Connected (Linear) Layer}
 
-For a single sample:
-\begin{equation}
+Single sample:
+$
 y = Wx + b
-\end{equation}
+$
 
-For a mini-batch $X \in \mathbb{R}^{B \times N}$:
-\begin{equation}
+Mini-batch $X \in \mathbb{R}^{B \times N}$:
+$
 Y = XW^\top + \mathbf{1}b^\top
-\end{equation}
+$
 
 \textbf{Activation Functions}
 
-\paragraph{Sigmoid}
-\begin{equation}
+Sigmoid:
+$
 \sigma(z)=\frac{1}{1+e^{-z}}
-\end{equation}
+$
 
-\paragraph{Tanh}
-\begin{equation}
+Tanh:
+$
 \tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
-\end{equation}
+$
 
-\paragraph{ReLU}
-\begin{equation}
+ReLU:
+$
 \mathrm{ReLU}(z)=\max(0,z)
-\end{equation}
+$
 
-\paragraph{Leaky ReLU}
-\begin{equation}
+Leaky ReLU:
+$
 \mathrm{LReLU}(z)=
 \begin{cases}
 z, & z\ge 0\\
 \alpha z, & z<0
 \end{cases}
-\end{equation}
+$
 
-\paragraph{SiLU (Swish)}
-\begin{equation}
+SiLU (Swish):
+$
 \mathrm{SiLU}(z)=z\sigma(z)
-\end{equation}
+$
 
 % SECTION 5: TRAINING ANN
 \section{Training ANN}
@@ -603,60 +393,62 @@ z, & z\ge 0\\
 \textbf{Problem Setup}
 Given a dataset $\{(x_i, y_i)\}_{i=1}^n$ and a model
 $\hat{y}_i = f_\theta(x_i)$, training aims to solve:
-\[
+
+$
 \min_{\theta} \; L(\theta) = \frac{1}{n}\sum_{i=1}^n \ell(y_i, \hat{y}_i).
-\]
+$
 
-\textbf{Regression Losses}
-\paragraph{Mean Squared Error (MSE)}
-\[
+\textbf{Regression Losses:}
+
+$
 L_{\text{MSE}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2.
-\]
-MSE penalizes large errors strongly but is sensitive to outliers.
+$
 
-\paragraph{Mean Absolute Error (MAE)}
-\[
+$
 L_{\text{MAE}} = \frac{1}{n}\sum_{i=1}^n |y_i - \hat{y}_i|.
-\]
-MAE is more robust to outliers but is not differentiable at zero.
+$
 
-\paragraph{Huber Loss}
-\[
+Huber Loss:
+
+$
 L_\delta(e_i) =
 \begin{cases}
 \frac{1}{2}e_i^2, & |e_i| \le \delta, \\
 \delta(|e_i| - \frac{1}{2}\delta), & |e_i| > \delta,
 \end{cases}
-\]
+$
+
 where $e_i = y_i - \hat{y}_i$.
 
 \textbf{Classification Losses}
-\paragraph{Binary Cross-Entropy (BCE)}
+
+BCE:
 For $y_i \in \{0,1\}$ and $p_i = \sigma(z_i)$:
-\[
+$
 L_{\text{BCE}} = -\frac{1}{n}\sum_{i=1}^n
-\left[y_i \log p_i + (1-y_i)\log(1-p_i)\right].
-\]
+[y_i \log p_i + (1-y_i)\log(1-p_i)].
+$
 
-\paragraph{Categorical Cross-Entropy}
+Categorical Cross-Entropy:
 For $K$ classes with one-hot labels:
-\[
+
+$
 L_{\text{CE}} = -\frac{1}{n}\sum_{i=1}^n \sum_{k=1}^K y_{ik}\log p_{ik}.
-\]
+$
 
-\textbf{Training Process}
-Training proceeds iteratively through three main steps:
+\textbf{Training Process:}
 
-\begin{enumerate}
-\item \textbf{Forward pass}: compute predictions and loss.
-\item \textbf{Backward pass}: compute gradients via backpropagation.
-\item \textbf{Update step}: update parameters using an optimizer.
-\end{enumerate}
+ {Forward}: compute predictions and loss.
 
-\textbf{Stochastic Gradient Descent}
-\[
+ {Backward}: compute grads via backprop.
+
+ {Update}: update param with optimizer.
+
+
+\textbf{SGD:}
+$
 \theta \leftarrow \theta - \eta \nabla_\theta L.
-\]
+$
 
 \textbf{Training Algorithm}
 \begin{algorithm}[H]
@@ -675,200 +467,136 @@ Training proceeds iteratively through three main steps:
 \end{algorithmic}
 \end{algorithm}
 
-\textbf{Optimization Methods}
-\textbf{SGD with Momentum}
-\[
+\textbf{SGD with Momentum:}
+
+$
 v_t = \mu v_{t-1} + g_t, \quad
 \theta \leftarrow \theta - \eta v_t.
-\]
+$
 
-\textbf{Adam}
-\[
-\begin{aligned}
-m_t &= \beta_1 m_{t-1} + (1-\beta_1)g_t, \\
-v_t &= \beta_2 v_{t-1} + (1-\beta_2)g_t^2, \\
-\theta &\leftarrow \theta - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}.
-\end{aligned}
-\]
+\textbf{Adam:}
+$
+m_t = \beta_1 m_{t-1} + (1-\beta_1)g_t, \\
+v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2, \\
+\theta \leftarrow \theta - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}.
+$
 
-\textbf{AdamW}
-AdamW decouples weight decay from the gradient update, improving
-generalization, especially in large-scale models.
+\textbf{AdamW:}
+ decouples weight decay from the gradient update
 
-\textbf{Training Techniques}
-\textbf{Learning Rate Scheduling}
-Common strategies include step decay, cosine annealing, and warm restarts.
+% \textbf{Training Techniques:}
 
-\textbf{Regularization}
-\begin{itemize}
-\item L2 weight decay
-\item Dropout
-\item Early stopping
-\end{itemize}
+% {Learning Rate Scheduling:} step decay, cosine annealing,  warm restarts.
 
-\textbf{Normalization}
-Batch Normalization and Layer Normalization stabilize training and allow
-larger learning rates.
+% {Regularization:}  L2 weight decay, Dropout,  Early stopping
 
-\textbf{Practical Considerations}
-\textbf{Initialization}
-Xavier initialization is suitable for sigmoid/tanh, while He initialization
-is designed for ReLU activations.
+% {Normalization:}
+% Batch Normalization and Layer Normalization 
 
-\textbf{Gradient Issues}
-Vanishing and exploding gradients can be mitigated using ReLU activations,
-residual connections, and gradient clipping.
+% \textbf{Practical Considerations:}
+
+% {Init:}
+% Xavier-sigmoid/tanh,  He-ReLU.
+
+% Gradient Issues
+% (Vanishing/exploding gradients): ReLU activations,
+% residual connections,  gradient clipping.
 
 % SECTION 6: SVM PRIMAL PROBLEM
 \section{SVM primal problem}
 
-\textbf{Giới thiệu bài toán}
-
 \textbf{Đầu vào}
 
-Dữ liệu huấn luyện gồm:
-\begin{itemize}
-    \item Ma trận dữ liệu:
-    \[
-    X =
-    \begin{bmatrix}
-    x_{1,1} & x_{1,2} & \cdots & x_{1,(M-1)} \\
-    x_{2,1} & x_{2,2} & \cdots & x_{2,(M-1)} \\
-    \vdots  & \vdots  & \ddots & \vdots \\
-    x_{N,1} & x_{N,2} & \cdots & x_{N,(M-1)}
-    \end{bmatrix}
-    \]
-    với $X \in \mathbb{R}^{N \times (M-1)}$.
+Ma trận dữ liệu:  $X \in \mathbb{R}^{N \times (M-1)}$.
     
-    \item Véc-tơ nhãn:
-    \[
+Nhãn:
+    $
     \mathbf{t} =
-    \begin{bmatrix}
-    t_1 \\ t_2 \\ \vdots \\ t_N
-    \end{bmatrix}, \quad t_n \in \{-1, +1\}
-    \]
-\end{itemize}
+    [t_1, t_2,\ldots, t_N]^T,  t_n \in \{-1, +1\}
+    $
 
-\textbf{Giả thiết}
-
-Dữ liệu thuộc hai lớp có thể \textbf{phân tách tuyến tính}, tức tồn tại một siêu phẳng sao cho các điểm mang nhãn $+1$ và $-1$ nằm ở hai phía khác nhau.
 
 \textbf{Mục tiêu}
-
 Xác định đường biên quyết định:
-\[
+$
 \mathbf{w}^T \mathbf{x} + b = 0
-\]
+$
 sao cho \textbf{lề (margin)} giữa hai lớp là lớn nhất.
 
-\textbf{SVM với \texttt{scikit-learn}}
-
-Ví dụ sử dụng SVM trong \texttt{scikit-learn}:
-\begin{verbatim}
-from sklearn import svm
-X = [[0, 0], [1, 1]]
-y = [0, 1]
-clf = svm.SVC()
-clf.fit(X, y)
-clf.predict([[2., 2.]])
-\end{verbatim}
-
-% =====================================================
-\textbf{Phương pháp xây dựng bộ phân lớp}
-
-\textbf{Nguyên tắc}
-
-Quy trình gồm ba bước chính:
-\begin{enumerate}
-    \item Chuyển về bài toán tối ưu có ràng buộc với mục tiêu cực đại lề (bài toán gốc).
-    \item Chuyển sang bài toán đối ngẫu (Dual problem).
-    \item Giải bài toán tối ưu bằng các thư viện tối ưu lồi như \texttt{CVXOPT}.
-\end{enumerate}
-
-% =====================================================
-\textbf{Bài toán gốc (Primal Problem)}
 
 \textbf{Khoảng cách từ điểm đến đường thẳng}
 
 Siêu phẳng trong không gian đặc trưng $(M-1)$ chiều:
-\[
+$
 \mathbf{w}^T \mathbf{x} + b = 0
-\]
+$
 
 Khoảng cách có dấu từ điểm $\mathbf{x}$ đến siêu phẳng:
-\[
+$
 d(\mathbf{x}) = \frac{\mathbf{w}^T \mathbf{x} + b}{\|\mathbf{w}\|}
-\]
+$
 
 Khoảng cách hình học:
-\[
+$
 |d(\mathbf{x})| = \frac{|\mathbf{w}^T \mathbf{x} + b|}{\|\mathbf{w}\|}
-\]
+$
 
-\textbf{Hàm quyết định}
-
-Hàm quyết định:
-\[
+\textbf{Hàm quyết định:}
+$
 y(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + b
-\]
+$
 
 Quy tắc phân lớp:
-\[
+$
 \text{class}(\mathbf{x}) = \text{sign}(y(\mathbf{x}))
-\]
+$
 
-\textbf{Lề (Margin)}
-
-Lề trên tập huấn luyện:
-\[
+\textbf{Lề (Margin):}
+$
 m_{\mathbf{w}} = \min_{n} \frac{t_n(\mathbf{w}^T \mathbf{x}_n + b)}{\|\mathbf{w}\|}
-\]
+$
 
-\textbf{Cực đại lề}
-
+\textbf{Cực đại lề:}
 Có thể chuẩn hóa sao cho:
-\[
+$
 t_n(\mathbf{w}^T \mathbf{x}_n + b) \ge 1, \quad \forall n
-\]
+$
 
 \textbf{Hàm mục tiêu}
 
 Cực đại lề tương đương với bài toán:
-\[
+$
 \min_{\mathbf{w}, b} \frac{1}{2}\|\mathbf{w}\|^2
-\]
-
+$
 với ràng buộc:
-\[
+
+$
 t_n(\mathbf{w}^T \mathbf{x}_n + b) \ge 1, \quad n=1,\dots,N
-\]
+$
 
-\textbf{Bài toán gốc}
+\textbf{Bài toán gốc:}
 
-\[
-\begin{aligned}
-\mathbf{w}^*, b^* = \arg\min_{\mathbf{w}, b} \quad &
+$
+\mathbf{w}^*, b^* = \arg\min_{\mathbf{w}, b} \quad 
 \frac{1}{2}\|\mathbf{w}\|^2 \\
-\text{s.t.} \quad &
+\text{s.t.} \quad 
 t_n(\mathbf{w}^T \mathbf{x}_n + b) \ge 1,\quad \forall n
-\end{aligned}
-\]
+$
 
 \textbf{Giải bằng thư viện CVXOPT}
 
 Dạng chuẩn:
-\[
+$
 \min_{\mathbf{x}} \frac{1}{2}\mathbf{x}^T K \mathbf{x} + \mathbf{p}^T \mathbf{x}
-\quad \text{s.t. } G\mathbf{x} \le \mathbf{h}
-\]
-
+\\ \text{s.t. } G\mathbf{x} \le \mathbf{h}
+$.
 Trong đó:
-\[
+$
 \mathbf{x} =
 \begin{bmatrix}
 \mathbf{w} \\ b
 \end{bmatrix}
-\]
+$
 
 
 % SECTION 7: SVM DUAL PROBLEM
@@ -878,12 +606,11 @@ Trong đó:
 % =====================================================
 \section{SVM dual problem}
 
-\textbf{Bài toán đối ngẫu}
 
 \textbf{Hàm Lagrangian}
 
-Hàm Lagrangian của bài toán \eqref{eq:primal} là:
-\begin{equation}
+Hàm Lagrangian của bài:
+$
 L(w,b,\alpha)
 =
 \frac{1}{2}\|w\|^2
@@ -891,46 +618,46 @@ L(w,b,\alpha)
 \sum_{n=1}^N \alpha_n
 \bigl[t_n(w^T x_n + b) - 1\bigr],
 \label{eq:lagrangian}
-\end{equation}
+$
+
 với
-\[
+$
 \alpha_n \ge 0,\quad n=1,\dots,N.
-\]
+$
 
 \textbf{Điều kiện KKT}
 
-Bài toán thỏa hệ điều kiện KKT:
-\begin{itemize}
-\item \textbf{(KKT-1)} Điều kiện dừng:
-\[
+\textbf{(KKT-1)} ĐK dừng:
+$
 \nabla_{w,b} L(w,b,\alpha)=0
-\]
-\item \textbf{(KKT-2)} Ràng buộc gốc
-\item \textbf{(KKT-3)} Ràng buộc đối ngẫu: $\alpha_n \ge 0$
-\item \textbf{(KKT-4)} Điều kiện bù:
-\[
+$
+
+\textbf{(KKT-2)} Ràng buộc gốc
+
+ \textbf{(KKT-3)} Ràng buộc đối ngẫu: $\alpha_n \ge 0$
+
+\textbf{(KKT-4)} ĐK bù:
+$
 \alpha_n[1-t_n(w^Tx_n+b)]=0
-\]
-\end{itemize}
+$
 
 % =====================================================
 \textbf{Xây dựng hàm đối ngẫu}
 
-Lấy đạo hàm theo $w$ và $b$:
-\begin{align}
-\frac{\partial L}{\partial w} &= w - \sum_{n=1}^N \alpha_n t_n x_n = 0
-\label{eq:w}\\
-\frac{\partial L}{\partial b} &= \sum_{n=1}^N \alpha_n t_n = 0
-\label{eq:b}
-\end{align}
+$
+\frac{\partial L}{\partial w} = w - \sum_{n=1}^N \alpha_n t_n x_n = 0
+\\
+\frac{\partial L}{\partial b} = \sum_{n=1}^N \alpha_n t_n = 0
+$
 
 Suy ra:
-\begin{equation}
+$
 w = \sum_{n=1}^N \alpha_n t_n x_n.
-\end{equation}
+$
 
-Thay vào Lagrangian, ta thu được hàm đối ngẫu:
-\begin{equation}
+Thay vào Lagrangian, được hàm đối ngẫu:
+
+$
 g(\alpha)
 =
 \sum_{n=1}^N \alpha_n
@@ -938,42 +665,38 @@ g(\alpha)
 \frac{1}{2}
 \sum_{r=1}^N \sum_{c=1}^N
 \alpha_r \alpha_c t_r t_c x_r^T x_c.
-\end{equation}
+$
 
 % =====================================================
 \textbf{Bài toán đối ngẫu}
 
-Bài toán đối ngẫu tương đương:
-\begin{equation}
-\begin{aligned}
+$
 \alpha^\ast
-&= \arg\min_{\alpha}
+= \arg\min_{\alpha}
 \;\frac{1}{2}\alpha^T K \alpha - \mathbf{1}^T \alpha \\
-\text{s.t.}\quad
-& \alpha_n \ge 0,\quad n=1,\dots,N,\\
-& \sum_{n=1}^N \alpha_n t_n = 0,
-\end{aligned}
-\label{eq:dual}
-\end{equation}
+\text{s.t. }
+ \alpha_n \ge 0, n=1,\dots,N,
+ \sum_{n=1}^N \alpha_n t_n = 0,
+$
 trong đó
-\[
+$
 K_{rc} = t_r t_c x_r^T x_c.
-\]
+$
 
 % =====================================================
 \textbf{Tiêu chuẩn Slater}
 
 Vì tồn tại $(w,b)$ sao cho
-\[
+$
 t_n(w^Tx_n+b) > 1,\;\forall n,
-\]
+$
 nên bài toán thỏa tiêu chuẩn Slater.
 Do đó:
-\[
+$
 \min_{w,b} \max_{\alpha} L(w,b,\alpha)
 =
 \max_{\alpha} \min_{w,b} L(w,b,\alpha).
-\]
+$
 
 Suy ra \textbf{duality gap bằng 0}.
 
@@ -981,16 +704,16 @@ Suy ra \textbf{duality gap bằng 0}.
 \textbf{Công thức dự báo}
 
 Với tập véc-tơ hỗ trợ $S = \{n : \alpha_n > 0\}$,
-\begin{equation}
+$
 y(x)
 =
 \sum_{n\in S} \alpha_n t_n x_n^T x + b.
-\end{equation}
+$
 
 Nhãn dự báo:
-\[
+$
 \hat{y} = \operatorname{sign}(y(x)).
-\]
+$
 
 
 
@@ -999,30 +722,6 @@ Nhãn dự báo:
 %------------------------------------------------
 \section{SVM soft margin}
 
-\textbf{Giới thiệu bài toán không khả tách tuyến tính}
-
-Trong thực tế, dữ liệu thường \textbf{không khả tách tuyến tính}.
-Khi đó:
-\begin{itemize}
-    \item Tập nghiệm khả thi của hard-margin là rỗng.
-    \item Không tồn tại $w,b$ thỏa tất cả các ràng buộc.
-\end{itemize}
-
-Do đó, cần mở rộng mô hình bằng cách cho phép một số điểm vi phạm ràng buộc.
-
-%------------------------------------------------
-\textbf{Nguyên tắc Soft Margin}
-
-Ý tưởng chính:
-\begin{enumerate}
-    \item Nới lỏng ràng buộc bằng biến phạt $\xi_n$.
-    \item Phạt các điểm nằm sai vị trí thông qua hàm mục tiêu.
-\end{enumerate}
-
-Mô hình này được gọi là \textbf{Soft Margin SVM}.
-
-%------------------------------------------------
-\textbf{Bài toán gốc với lề mềm}
 
 \textbf{Ràng buộc mới}
 
@@ -1033,15 +732,15 @@ t_n(w^T x_n + b) &\ge 1 - \xi_n, \quad n=1,\dots,N, \\
 
 \textbf{Hàm mục tiêu mới}
 
-\begin{equation}
+$
 f_0(w,b,\xi) =
 \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n,
-\end{equation}
+$
 trong đó $C > 0$ là siêu tham số điều chỉnh mức phạt.
 
 \textbf{Bài toán tối ưu}
 
-\begin{equation}
+$
 \begin{aligned}
 \min_{w,b,\xi} \quad &
 \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n \\
@@ -1049,21 +748,21 @@ trong đó $C > 0$ là siêu tham số điều chỉnh mức phạt.
 t_n(w^T x_n + b) \ge 1 - \xi_n, \\
 & \xi_n \ge 0,\quad n=1,\dots,N.
 \end{aligned}
-\end{equation}
+$
 
 %------------------------------------------------
 \textbf{Bài toán đối ngẫu}
 
 \textbf{Hàm Lagrangian}
 
-\begin{equation}
+$
 \begin{aligned}
 L(w,b,\xi,\alpha,\mu) &=
 \frac{1}{2}\|w\|^2 + C\sum_{n=1}^N \xi_n \\
 &\quad - \sum_{n=1}^N \alpha_n[t_n(w^T x_n + b)-1+\xi_n]
 - \sum_{n=1}^N \mu_n \xi_n.
 \end{aligned}
-\end{equation}
+$
 
 \textbf{Điều kiện KKT}
 
@@ -1075,7 +774,7 @@ w &= \sum_{n=1}^N \alpha_n t_n x_n, \\
 
 \textbf{Bài toán đối ngẫu}
 
-\begin{equation}
+$
 \begin{aligned}
 \min_{\alpha} \quad &
 \frac{1}{2}\sum_{r=1}^N\sum_{c=1}^N
@@ -1085,32 +784,32 @@ w &= \sum_{n=1}^N \alpha_n t_n x_n, \\
 0 \le \alpha_n \le C, \\
 & \sum_{n=1}^N \alpha_n t_n = 0.
 \end{aligned}
-\end{equation}
+$
 
 %------------------------------------------------
 \textbf{Công thức dự báo}
 
 Sau khi tìm được $\alpha$ và $b$, hàm quyết định là:
-\begin{equation}
+$
 y(x) = \sum_{n \in S} \alpha_n t_n x_n^T x + b,
-\end{equation}
+$
 trong đó $S$ là tập các véc-tơ hỗ trợ.
 
 Nhãn dự báo:
-\[
+$
 \text{label} = \mathrm{sign}(y(x)).
-\]
+$
 
 %------------------------------------------------
 \textbf{Cài đặt với CVXOPT}
 
 Bài toán đối ngẫu có dạng chuẩn:
-\begin{equation}
+$
 \min_{\alpha} \quad
 \frac{1}{2}\alpha^T K \alpha + p^T \alpha
 \quad \text{s.t.} \quad
 G\alpha \le h,\; A\alpha = b.
-\end{equation}
+$
 
 Các ràng buộc hộp $0 \le \alpha_n \le C$ được mã hóa trong ma trận $G$ và $h$.
 
@@ -1125,77 +824,77 @@ Các ràng buộc hộp $0 \le \alpha_n \le C$ được mã hóa trong ma trận
 Xét tập huấn luyện $\{(x_i,t_i)\}_{i=1}^N$ với $t_i \in \{-1,+1\}$.
 Bài toán đối ngẫu của SVM lề mềm được viết dưới dạng:
 
-\begin{equation}
+$
 \alpha^* = \arg\min_{\alpha}
 \frac{1}{2}\alpha^T K \alpha + p^T \alpha
-\end{equation}
+$
 
 với các ràng buộc:
-\begin{equation}
+$
 G\alpha \le h, \qquad A\alpha = b
-\end{equation}
+$
 
 Trong đó, ma trận kernel $K$ được xác định bởi tích vô hướng giữa các điểm dữ liệu.
 
 \textbf{Dự báo}
 Giá trị bias $b$ được ước lượng bởi:
-\begin{equation}
+$
 b = \frac{1}{N_M}
 \left(
 t_M - K_{MS}[\alpha_S \odot t_S]
 \right)^T \mathbf{1}
-\end{equation}
+$
 
 Hàm dự báo:
-\begin{equation}
+$
 y = K_{BS}[\alpha_S \odot t_S] + b
-\end{equation}
+$
 
 Nhãn dự đoán:
-\begin{equation}
+$
 \text{label} = \text{sign}(y)
-\end{equation}
+$
 
 \textbf{Khi đường biên giới phi tuyến}
 Trong nhiều bài toán thực tế, dữ liệu không thể phân tách tuyến tính.
 Giải pháp là ánh xạ dữ liệu thông qua hàm trích đặc trưng:
-\[
+$
 \Phi: \mathbb{R}^d \rightarrow \mathcal{H}
-\]
+$
 
 Tuy nhiên, việc tính trực tiếp $\Phi(x)$ có thể tốn kém hoặc không khả thi
 khi không gian đặc trưng có số chiều rất lớn hoặc vô hạn.
 
 \textbf{Phương pháp Kernel}
 Phương pháp kernel cho phép tính:
-\[
+$
 \langle \Phi(x_i), \Phi(x_j) \rangle
-\]
+$
 mà không cần biết tường minh $\Phi(x)$, thông qua một hàm kernel:
-\[
+$
 k(x_i,x_j)
-\]
+$
 
 \textbf{Điều kiện Mercer}
 Một hàm $k(x_i,x_j)$ là kernel hợp lệ nếu:
 \begin{itemize}
 \item Đối xứng: $k(x_i,x_j) = k(x_j,x_i)$
 \item Bán định dương:
-\[
+$
 \sum_{i=1}^N \sum_{j=1}^N c_i c_j k(x_i,x_j) \ge 0
-\]
+$
 \end{itemize}
 
 \textbf{Huấn luyện và dự báo với Kernel}
 Ma trận Gram kernel:
-\begin{equation}
+$
 K_{Gram} =
 \begin{bmatrix}
 k(x_1,x_1) & \cdots & k(x_1,x_N)\\
 \vdots & \ddots & \vdots\\
 k(x_N,x_1) & \cdots & k(x_N,x_N)
 \end{bmatrix}
-\end{equation}
+$
 
 Việc sử dụng kernel đảm bảo bài toán tối ưu là lồi và có nghiệm toàn cục.
 
@@ -1204,24 +903,24 @@ Một số kernel phổ biến trong thực tế:
 
 \begin{itemize}
 \item \textbf{Linear}:
-\[
+$
 k(x,x') = x^T x'
-\]
+$
 
 \item \textbf{Polynomial}:
-\[
+$
 k(x,x') = (\gamma x^T x' + r)^d
-\]
+$
 
 \item \textbf{RBF (Gaussian)}:
-\[
+$
 k(x,x') = \exp(-\gamma \|x-x'\|^2)
-\]
+$
 
 \item \textbf{Sigmoid}:
-\[
+$
 k(x,x') = \tanh(\gamma x^T x' + r)
-\]
+$
 \end{itemize}
 
 Kernel RBF tương ứng với không gian đặc trưng vô hạn chiều.
@@ -1246,7 +945,7 @@ phi tuyến hóa đường biên phân lớp một cách hiệu quả.
 
 \textbf{Mô tả bài toán}
 Giả sử tập dữ liệu đầu vào:
-\[
+$
 X =
 \begin{bmatrix}
 x_{1,1} & x_{1,2} & \cdots & x_{1,D} \\
@@ -1254,7 +953,7 @@ x_{2,1} & x_{2,2} & \cdots & x_{2,D} \\
 \vdots  & \vdots  & \ddots & \vdots  \\
 x_{N,1} & x_{N,2} & \cdots & x_{N,D}
 \end{bmatrix}
-\]
+$
 trong đó:
 \begin{itemize}
     \item $X \in \mathbb{R}^{N \times D}$;
@@ -1270,25 +969,25 @@ trong đó:
 \textbf{Kiến thức toán học liên quan}
 \textbf{Phương sai và hiệp phương sai}
 Trung bình của dữ liệu:
-\[
+$
 \mu = \frac{1}{N}\sum_{n=1}^{N} x_n
-\]
+$
 
 Dữ liệu được chuẩn hóa:
-\[
+$
 z_n = x_n - \mu
-\]
+$
 
 Ma trận hiệp phương sai:
-\[
+$
 S = \frac{1}{N}\sum_{n=1}^{N}(x_n - \mu)(x_n - \mu)^T
-\]
+$
 
 \textbf{Eigenvalue và Eigenvector}
 Với ma trận vuông $A$, bài toán eigen:
-\[
+$
 Au = \lambda u
-\]
+$
 trong đó $u$ là eigenvector và $\lambda$ là eigenvalue.
 
 \textbf{Cơ sở lý luận của PCA}
@@ -1302,20 +1001,20 @@ Hai cách tiếp cận này là tương đương về mặt toán học.
 
 \textbf{Cực đại hóa phương sai}
 Với một vectơ đơn vị $u$, phương sai của dữ liệu khi chiếu lên $u$ là:
-\[
+$
 \sigma^2 = u^T S u
-\]
+$
 
 Bài toán tối ưu:
-\[
+$
 \max_{u} \quad u^T S u
 \quad \text{s.t.} \quad u^T u = 1
-\]
+$
 
 Sử dụng nhân tử Lagrange dẫn đến:
-\[
+$
 Su = \lambda u
-\]
+$
 
 Do đó:
 \begin{itemize}
@@ -1325,19 +1024,19 @@ Do đó:
 
 \textbf{Thu giảm số chiều}
 Chọn $M$ eigenvector tương ứng với $M$ eigenvalue lớn nhất, tạo thành ma trận:
-\[
+$
 \hat{U} = [u_1, u_2, \dots, u_M]
-\]
+$
 
 Chiếu dữ liệu:
-\[
+$
 X_{\text{PCA}} = (X - \mu^T)\hat{U}
-\]
+$
 
 Phục hồi xấp xỉ:
-\[
+$
 \hat{X} = \mu^T + X_{\text{PCA}}\hat{U}^T
-\]
+$
 
 \textbf{PCA qua API}
 Ví dụ PCA trong \texttt{scikit-learn}:
@@ -1350,9 +1049,9 @@ print(pca.explained_variance_ratio_)
 
 \textbf{Singular Value Decomposition (SVD)}
 Phân rã SVD:
-\[
+$
 X = U S V^T
-\]
+$
 
 \begin{itemize}
     \item PCA thực hiện eigen-decomposition trên ma trận hiệp phương sai;
@@ -1378,7 +1077,7 @@ X = U S V^T
 \textbf{Đầu vào}
 
 Cho tập dữ liệu:
-\[
+$
 X =
 \begin{bmatrix}
 x_{1,1} & x_{1,2} & \cdots & x_{1,D} \\
@@ -1391,7 +1090,7 @@ t =
 \begin{bmatrix}
 t_1 \\ t_2 \\ \vdots \\ t_N
 \end{bmatrix}
-\]
+$
 
 Trong đó:
 \begin{itemize}
@@ -1430,66 +1129,66 @@ X_r = lda.fit(X, y).transform(X)
 \textbf{Tâm của mỗi lớp}
 
 Với lớp $k$:
-\[
+$
 \mathbf{m}_k = \frac{1}{N_k} \sum_{n \in C_k} \mathbf{x}_n
-\]
+$
 
 \textbf{Between-class scatter matrix}
 
-\[
+$
 S_B = (\mathbf{m}_2 - \mathbf{m}_1)(\mathbf{m}_2 - \mathbf{m}_1)^T
-\]
+$
 
 \textbf{Within-class scatter matrix}
 
-\[
+$
 S_W = \sum_{k=1}^{C} \sum_{n \in C_k}
 (\mathbf{x}_n - \mathbf{m}_k)(\mathbf{x}_n - \mathbf{m}_k)^T
-\]
+$
 
 \textbf{Hàm mục tiêu của Fisher}
 
-\[
+$
 J(\mathbf{w}) =
 \frac{\mathbf{w}^T S_B \mathbf{w}}
      {\mathbf{w}^T S_W \mathbf{w}}
-\]
+$
 
 Mục tiêu:
-\[
+$
 \mathbf{w}^* = \arg\max_{\mathbf{w}} J(\mathbf{w})
-\]
+$
 
 % ==========================================================
 \textbf{Tìm nghiệm}
 
 Giải bài toán tối ưu dẫn đến phương trình trị riêng:
-\[
+$
 S_W^{-1} S_B \mathbf{w} = \lambda \mathbf{w}
-\]
+$
 
 Hướng chiếu tối ưu là:
-\[
+$
 \mathbf{w} \propto S_W^{-1}(\mathbf{m}_2 - \mathbf{m}_1)
-\]
+$
 
 % ==========================================================
 \textbf{Trường hợp có $C$ lớp}
 
 \textbf{Hàm mục tiêu tổng quát}
 
-\[
+$
 J(W) =
 \frac{\text{trace}(W^T S_B W)}
      {\text{trace}(W^T S_W W)}
-\]
+$
 
 \textbf{Số chiều tối đa}
 
 Số chiều tối đa có thể chọn là:
-\[
+$
 M \le C - 1
-\]
+$
 
 Do ma trận $S_B$ có hạng tối đa là $C-1$.
 
@@ -1517,13 +1216,13 @@ overly simplistic assumptions, while variance reflects sensitivity to training
 data fluctuations. Ensemble learning aims to reduce variance by averaging
 predictions of multiple weakly correlated models. For regression, the variance
 of an ensemble predictor can be approximated as
-\[
+$
 \mathrm{Var}\left(
 \frac{1}{M} \sum_{m=1}^{M} \hat{y}^{(m)}
 \right)
 \approx
 \frac{1}{M^2} \sum_{m=1}^{M} \mathrm{Var}(\hat{y}^{(m)}).
-\]
+$
 
 % --------------------
 \textbf{Bagging (Bootstrap Aggregating)}
@@ -1534,9 +1233,9 @@ as decision trees.
 \textbf{Method Description}
 
 Given a training dataset
-\[
+$
 D = \{(x_i, y_i)\}_{i=1}^{n},
-\]
+$
 Bagging constructs an ensemble of $M$ models as follows:
 \begin{enumerate}[label=\arabic*.]
 \item Draw $M$ bootstrap datasets $D_1, D_2, \dots, D_M$ by sampling $n$ points
@@ -1544,13 +1243,13 @@ with replacement from $D$.
 \item Train a base learner on each bootstrap dataset to obtain models
 $h_1, h_2, \dots, h_M$.
 \item Combine predictions of all models:
-\[
+$
 \hat{y}(x) =
 \begin{cases}
 \frac{1}{M}\sum_{m=1}^{M} h_m(x), & \text{regression}, \\
 \text{majority vote}, & \text{classification}.
 \end{cases}
-\]
+$
 \end{enumerate}
 
 \textbf{Properties}
@@ -1591,12 +1290,12 @@ and variance.
 For binary classification with $y_i \in \{-1,+1\}$, AdaBoost maintains a weight
 distribution over training samples. At iteration $t$, a weak learner $h_t$ is
 trained using weighted data. The final classifier is
-\[
+$
 H(x) = \mathrm{sign}
 \left(
 \sum_{t=1}^{T} \alpha_t h_t(x)
 \right),
-\]
+$
 where $\alpha_t$ is determined by the weighted classification error of $h_t$.
 
 \textbf{Gradient Boosting}
@@ -1650,9 +1349,9 @@ A solution is encoded as a chromosome. Common encoding methods include:
 
 The fitness function $f(x)$ evaluates the quality of a solution $x$.
 For minimization problems, a transformation is typically applied, such as:
-\[
+$
 f_{\text{max}}(x) = \frac{1}{1 + f_{\text{min}}(x)}
-\]
+$
 
 The fitness function should be computationally efficient, as it is evaluated
 many times during the evolutionary process.
@@ -1714,9 +1413,9 @@ fitness convergence, stagnation, or time limits.
 \textbf{Simple Example}
 
 Consider maximizing the function:
-\[
+$
 f(x) = x^2, \quad x \in \{0,1,\ldots,15\}
-\]
+$
 
 Binary encoding with 4 bits is used.
 An example initial population is shown in Table~\ref{tab:initpop}.
