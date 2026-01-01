@@ -10,6 +10,8 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \usepackage{multicol}
 
@@ -25,7 +27,9 @@
 
 % SECTION 1: LINEAR REGRESSION
 
-\section{Định nghĩa bài toán}
+\section{LINEAR REGRESSION}
+
+\subsection{Định nghĩa bài toán}
 
 \subsection{Đầu vào}
 
@@ -88,7 +92,7 @@ với:
 \]
 
 % =====================================================
-\section{Giải bài toán}
+\subsection{Giải bài toán}
 
 \subsection{Nguyên tắc chung}
 
@@ -143,7 +147,7 @@ Cập nhật tham số:
 \end{equation}
 
 % =====================================================
-\section{Hồi quy cho quan hệ phi tuyến}
+\subsection{Hồi quy cho quan hệ phi tuyến}
 
 Ánh xạ dữ liệu sang không gian đặc trưng mới:
 \[
@@ -155,7 +159,7 @@ Cập nhật tham số:
 Sau đó áp dụng hồi quy tuyến tính trên không gian mới.
 
 % =====================================================
-\section{Đánh giá mô hình}
+\subsection{Đánh giá mô hình}
 
 \subsection{Dự báo}
 
@@ -177,7 +181,7 @@ Root Mean Squared Error:
 \end{equation}
 
 % =====================================================
-\section{Hạn chế quá khớp}
+\subsection{Hạn chế quá khớp}
 
 \subsection{Ridge Regression}
 
@@ -202,7 +206,7 @@ L(\mathbf{w})
 \end{equation}
 
 % =====================================================
-\section{Dự báo cho nhiều biến}
+\subsection{Dự báo cho nhiều biến}
 
 Với $K$ biến đầu ra:
 \begin{equation}
@@ -218,7 +222,9 @@ Trong đó:
 
 % SECTION 2: LOGISTIC REGRESSION
 % ==================================================
-\section{Giới thiệu bài toán}
+\section{LOGISTIC REGRESSION}
+
+\subsection{Giới thiệu bài toán}
 
 % --------------------------------------------------
 \subsection{Đầu vào}
@@ -266,7 +272,7 @@ t = (t_1, t_2, \ldots, t_N)^T
 \end{itemize}
 
 % ==================================================
-\section{Phương pháp xây dựng mô hình}
+\subsection{Phương pháp xây dựng mô hình}
 
 \subsection{Ý tưởng}
 
@@ -305,7 +311,7 @@ Quy tắc phân lớp:
 \end{itemize}
 
 % ==================================================
-\section{Ước lượng tham số của mô hình}
+\subsection{Ước lượng tham số của mô hình}
 
 \subsection{Xây dựng hàm mục tiêu}
 
@@ -364,7 +370,9 @@ Phương pháp sử dụng:
 
 
 % ==================================================
-\section{Dữ liệu đầu vào}
+\section{SOFTMAX REGRESSION}
+
+\subsection{Dữ liệu đầu vào}
 
 \subsection{Ma trận dữ liệu}
 
@@ -399,7 +407,7 @@ Thỏ  & 3 & [0, 0, 0, 1] \\
 \end{center}
 
 % ==================================================
-\section{Mô hình tuyến tính với Softmax}
+\subsection{Mô hình tuyến tính với Softmax}
 
 \subsection{Mô hình dự báo}
 
@@ -434,7 +442,7 @@ Nhãn dự đoán của mẫu dữ liệu được xác định bằng:
 \]
 
 % ==================================================
-\section{Hàm mục tiêu và tối ưu}
+\subsection{Hàm mục tiêu và tối ưu}
 
 \subsection{Hàm hợp lý}
 
@@ -453,7 +461,7 @@ L(W) = -\sum_{n=1}^{N}\sum_{k=1}^{K} y_{n,k}\log(\hat{y}_{n,k})
 Mục tiêu là tìm $W$ sao cho $L(W)$ đạt giá trị nhỏ nhất.
 
 % ==================================================
-\section{Ước lượng tham số}
+\subsection{Ước lượng tham số}
 
 \subsection{Gradient Descent}
 
@@ -474,7 +482,7 @@ W \leftarrow W - \eta \Delta W
 trong đó $\eta$ là hệ số học.
 
 % ==================================================
-\section{Mở rộng cho đường biên phi tuyến}
+\subsection{Mở rộng cho đường biên phi tuyến}
 
 Để xử lý dữ liệu không phân tách tuyến tính, có thể:
 \begin{itemize}
@@ -489,7 +497,9 @@ trong đó $\eta$ là hệ số học.
 
 % SECTION 4: MLP
 % ======================================================
-\section{MLP: Computational Architecture View}
+\section{MLP}
+
+\subsection{MLP: Computational Architecture View}
 
 An MLP consists of:
 \begin{itemize}
@@ -505,7 +515,7 @@ An MLP consists of:
 deep learning = nonlinear feature extraction + simple linear head.
 
 % ======================================================
-\section{MLP: Mathematical Model}
+\subsection{MLP: Mathematical Model}
 
 \subsection{Forward Pass}
 
@@ -542,7 +552,7 @@ f^{(L+1)} \circ \phi \circ f^{(L)} \circ \cdots \circ \phi \circ f^{(1)}(x)
 More layers imply higher representation power.
 
 % ======================================================
-\section{MLP: Layers}
+\subsection{MLP: Layers}
 
 \subsection{Fully Connected (Linear) Layer}
 
@@ -587,9 +597,132 @@ z, & z\ge 0\\
 \mathrm{SiLU}(z)=z\sigma(z)
 \end{equation}
 
+% SECTION 5: TRAINING ANN
+\section{Training ANN}
 
-% SECTION 5: SVM PRIMAL PROBLEM
-\section{Giới thiệu bài toán}
+\subsection{Problem Setup}
+Given a dataset $\{(x_i, y_i)\}_{i=1}^n$ and a model
+$\hat{y}_i = f_\theta(x_i)$, training aims to solve:
+\[
+\min_{\theta} \; L(\theta) = \frac{1}{n}\sum_{i=1}^n \ell(y_i, \hat{y}_i).
+\]
+
+\subsubsection{Regression Losses}
+\paragraph{Mean Squared Error (MSE)}
+\[
+L_{\text{MSE}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2.
+\]
+MSE penalizes large errors strongly but is sensitive to outliers.
+
+\paragraph{Mean Absolute Error (MAE)}
+\[
+L_{\text{MAE}} = \frac{1}{n}\sum_{i=1}^n |y_i - \hat{y}_i|.
+\]
+MAE is more robust to outliers but is not differentiable at zero.
+
+\paragraph{Huber Loss}
+\[
+L_\delta(e_i) =
+\begin{cases}
+\frac{1}{2}e_i^2, & |e_i| \le \delta, \\
+\delta(|e_i| - \frac{1}{2}\delta), & |e_i| > \delta,
+\end{cases}
+\]
+where $e_i = y_i - \hat{y}_i$.
+
+\subsubsection{Classification Losses}
+\paragraph{Binary Cross-Entropy (BCE)}
+For $y_i \in \{0,1\}$ and $p_i = \sigma(z_i)$:
+\[
+L_{\text{BCE}} = -\frac{1}{n}\sum_{i=1}^n
+\left[y_i \log p_i + (1-y_i)\log(1-p_i)\right].
+\]
+
+\paragraph{Categorical Cross-Entropy}
+For $K$ classes with one-hot labels:
+\[
+L_{\text{CE}} = -\frac{1}{n}\sum_{i=1}^n \sum_{k=1}^K y_{ik}\log p_{ik}.
+\]
+
+\subsection{Training Process}
+Training proceeds iteratively through three main steps:
+
+\begin{enumerate}
+\item \textbf{Forward pass}: compute predictions and loss.
+\item \textbf{Backward pass}: compute gradients via backpropagation.
+\item \textbf{Update step}: update parameters using an optimizer.
+\end{enumerate}
+
+\subsubsection{Stochastic Gradient Descent}
+\[
+\theta \leftarrow \theta - \eta \nabla_\theta L.
+\]
+
+\subsubsection{Training Algorithm}
+\begin{algorithm}[H]
+\caption{SGD Training Procedure}
+\begin{algorithmic}[1]
+\STATE Initialize parameters $\theta$
+\FOR{epoch = 1 to $E$}
+    \STATE Shuffle dataset and create mini-batches
+    \FOR{each mini-batch $(X,y)$}
+        \STATE Forward pass
+        \STATE Compute loss $L$
+        \STATE Backward pass: compute $\nabla_\theta L$
+        \STATE Update: $\theta \leftarrow \theta - \eta \nabla_\theta L$
+    \ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Optimization Methods}
+\subsubsection{SGD with Momentum}
+\[
+v_t = \mu v_{t-1} + g_t, \quad
+\theta \leftarrow \theta - \eta v_t.
+\]
+
+\subsubsection{Adam}
+\[
+\begin{aligned}
+m_t &= \beta_1 m_{t-1} + (1-\beta_1)g_t, \\
+v_t &= \beta_2 v_{t-1} + (1-\beta_2)g_t^2, \\
+\theta &\leftarrow \theta - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}.
+\end{aligned}
+\]
+
+\subsubsection{AdamW}
+AdamW decouples weight decay from the gradient update, improving
+generalization, especially in large-scale models.
+
+\subsection{Training Techniques}
+\subsubsection{Learning Rate Scheduling}
+Common strategies include step decay, cosine annealing, and warm restarts.
+
+\subsubsection{Regularization}
+\begin{itemize}
+\item L2 weight decay
+\item Dropout
+\item Early stopping
+\end{itemize}
+
+\subsubsection{Normalization}
+Batch Normalization and Layer Normalization stabilize training and allow
+larger learning rates.
+
+\subsection{Practical Considerations}
+\subsubsection{Initialization}
+Xavier initialization is suitable for sigmoid/tanh, while He initialization
+is designed for ReLU activations.
+
+\subsubsection{Gradient Issues}
+Vanishing and exploding gradients can be mitigated using ReLU activations,
+residual connections, and gradient clipping.
+
+% SECTION 6: SVM PRIMAL PROBLEM
+\section{SVM PRIMAL PROBLEM}
+
+\subsection{Giới thiệu bài toán}
 
 \subsection{Đầu vào}
 
@@ -641,7 +774,7 @@ clf.predict([[2., 2.]])
 \end{verbatim}
 
 % =====================================================
-\section{Phương pháp xây dựng bộ phân lớp}
+\subsection{Phương pháp xây dựng bộ phân lớp}
 
 \subsection{Nguyên tắc}
 
@@ -653,7 +786,7 @@ Quy trình gồm ba bước chính:
 \end{enumerate}
 
 % =====================================================
-\section{Bài toán gốc (Primal Problem)}
+\subsection{Bài toán gốc (Primal Problem)}
 
 \subsection{Khoảng cách từ điểm đến đường thẳng}
 
@@ -738,12 +871,14 @@ Trong đó:
 \]
 
 
-% SECTION 6: SVM DUAL PROBLEM
+% SECTION 7: SVM DUAL PROBLEM
 
 % =====================================================
 
 % =====================================================
-\section{Bài toán đối ngẫu}
+\section{SVM DUAL PROBLEM}
+
+\subsection{Bài toán đối ngẫu}
 
 \subsection{Hàm Lagrangian}
 
@@ -779,7 +914,7 @@ Bài toán thỏa hệ điều kiện KKT:
 \end{itemize}
 
 % =====================================================
-\section{Xây dựng hàm đối ngẫu}
+\subsection{Xây dựng hàm đối ngẫu}
 
 Lấy đạo hàm theo $w$ và $b$:
 \begin{align}
@@ -806,7 +941,7 @@ g(\alpha)
 \end{equation}
 
 % =====================================================
-\section{Bài toán đối ngẫu}
+\subsection{Bài toán đối ngẫu}
 
 Bài toán đối ngẫu tương đương:
 \begin{equation}
@@ -826,7 +961,7 @@ K_{rc} = t_r t_c x_r^T x_c.
 \]
 
 % =====================================================
-\section{Tiêu chuẩn Slater}
+\subsection{Tiêu chuẩn Slater}
 
 Vì tồn tại $(w,b)$ sao cho
 \[
@@ -843,7 +978,7 @@ Do đó:
 Suy ra \textbf{duality gap bằng 0}.
 
 % =====================================================
-\section{Công thức dự báo}
+\subsection{Công thức dự báo}
 
 Với tập véc-tơ hỗ trợ $S = \{n : \alpha_n > 0\}$,
 \begin{equation}
@@ -859,10 +994,12 @@ Nhãn dự báo:
 
 
 
-% SECTION 7: SVM SOFT MARGIN
+% SECTION 8: SVM SOFT MARGIN
 
 %------------------------------------------------
-\section{Giới thiệu bài toán không khả tách tuyến tính}
+\section{SVM SOFT MARGIN}
+
+\subsection{Giới thiệu bài toán không khả tách tuyến tính}
 
 Trong thực tế, dữ liệu thường \textbf{không khả tách tuyến tính}.
 Khi đó:
@@ -874,7 +1011,7 @@ Khi đó:
 Do đó, cần mở rộng mô hình bằng cách cho phép một số điểm vi phạm ràng buộc.
 
 %------------------------------------------------
-\section{Nguyên tắc Soft Margin}
+\subsection{Nguyên tắc Soft Margin}
 
 Ý tưởng chính:
 \begin{enumerate}
@@ -885,7 +1022,7 @@ Do đó, cần mở rộng mô hình bằng cách cho phép một số điểm v
 Mô hình này được gọi là \textbf{Soft Margin SVM}.
 
 %------------------------------------------------
-\section{Bài toán gốc với lề mềm}
+\subsection{Bài toán gốc với lề mềm}
 
 \subsection{Ràng buộc mới}
 
@@ -915,7 +1052,7 @@ t_n(w^T x_n + b) \ge 1 - \xi_n, \\
 \end{equation}
 
 %------------------------------------------------
-\section{Bài toán đối ngẫu}
+\subsection{Bài toán đối ngẫu}
 
 \subsection{Hàm Lagrangian}
 
@@ -951,7 +1088,7 @@ w &= \sum_{n=1}^N \alpha_n t_n x_n, \\
 \end{equation}
 
 %------------------------------------------------
-\section{Công thức dự báo}
+\subsection{Công thức dự báo}
 
 Sau khi tìm được $\alpha$ và $b$, hàm quyết định là:
 \begin{equation}
@@ -965,7 +1102,7 @@ Nhãn dự báo:
 \]
 
 %------------------------------------------------
-\section{Cài đặt với CVXOPT}
+\subsection{Cài đặt với CVXOPT}
 
 Bài toán đối ngẫu có dạng chuẩn:
 \begin{equation}
@@ -979,10 +1116,12 @@ Các ràng buộc hộp $0 \le \alpha_n \le C$ được mã hóa trong ma trận
 
 %------------------------------------------------
 
-% SECTION 8: SVM KERNEL
+% SECTION 9: SVM KERNEL
 
 
-\section{SVM hai lớp với lề mềm}
+\section{SVM KERNEL}
+
+\subsection{SVM hai lớp với lề mềm}
 Xét tập huấn luyện $\{(x_i,t_i)\}_{i=1}^N$ với $t_i \in \{-1,+1\}$.
 Bài toán đối ngẫu của SVM lề mềm được viết dưới dạng:
 
@@ -1017,7 +1156,7 @@ Nhãn dự đoán:
 \text{label} = \text{sign}(y)
 \end{equation}
 
-\section{Khi đường biên giới phi tuyến}
+\subsection{Khi đường biên giới phi tuyến}
 Trong nhiều bài toán thực tế, dữ liệu không thể phân tách tuyến tính.
 Giải pháp là ánh xạ dữ liệu thông qua hàm trích đặc trưng:
 \[
@@ -1027,7 +1166,7 @@ Giải pháp là ánh xạ dữ liệu thông qua hàm trích đặc trưng:
 Tuy nhiên, việc tính trực tiếp $\Phi(x)$ có thể tốn kém hoặc không khả thi
 khi không gian đặc trưng có số chiều rất lớn hoặc vô hạn.
 
-\section{Phương pháp Kernel}
+\subsection{Phương pháp Kernel}
 Phương pháp kernel cho phép tính:
 \[
 \langle \Phi(x_i), \Phi(x_j) \rangle
@@ -1047,7 +1186,7 @@ Một hàm $k(x_i,x_j)$ là kernel hợp lệ nếu:
 \]
 \end{itemize}
 
-\section{Huấn luyện và dự báo với Kernel}
+\subsection{Huấn luyện và dự báo với Kernel}
 Ma trận Gram kernel:
 \begin{equation}
 K_{Gram} =
@@ -1060,7 +1199,7 @@ k(x_N,x_1) & \cdots & k(x_N,x_N)
 
 Việc sử dụng kernel đảm bảo bài toán tối ưu là lồi và có nghiệm toàn cục.
 
-\section{Các kernel thông dụng}
+\subsection{Các kernel thông dụng}
 Một số kernel phổ biến trong thực tế:
 
 \begin{itemize}
@@ -1087,7 +1226,7 @@ k(x,x') = \tanh(\gamma x^T x' + r)
 
 Kernel RBF tương ứng với không gian đặc trưng vô hạn chiều.
 
-\section{Thiết kế Kernel}
+\subsection{Thiết kế Kernel}
 Việc thiết kế kernel phụ thuộc mạnh vào kiến thức miền (domain knowledge),
 với mục tiêu:
 \begin{itemize}
@@ -1095,15 +1234,17 @@ với mục tiêu:
 \item $k(x_i,x_j)$ nhỏ nếu khác lớp
 \end{itemize}
 
-\section{Minh họa}
+\subsection{Minh họa}
 Các thí nghiệm với kernel đa thức và kernel RBF cho thấy khả năng
 phi tuyến hóa đường biên phân lớp một cách hiệu quả.
 
 
-% SECTION 9 : PCA
+% SECTION 10 : PCA
 
 
-\section{Mô tả bài toán}
+\section{PCA}
+
+\subsection{Mô tả bài toán}
 Giả sử tập dữ liệu đầu vào:
 \[
 X =
@@ -1126,7 +1267,7 @@ trong đó:
     \item Các đặc trưng mới không còn tương quan tuyến tính.
 \end{enumerate}
 
-\section{Kiến thức toán học liên quan}
+\subsection{Kiến thức toán học liên quan}
 \subsection{Phương sai và hiệp phương sai}
 Trung bình của dữ liệu:
 \[
@@ -1150,7 +1291,7 @@ Au = \lambda u
 \]
 trong đó $u$ là eigenvector và $\lambda$ là eigenvalue.
 
-\section{Cơ sở lý luận của PCA}
+\subsection{Cơ sở lý luận của PCA}
 PCA có thể được nhìn theo hai cách:
 \begin{itemize}
     \item Cực đại hóa phương sai của dữ liệu sau khi chiếu;
@@ -1159,7 +1300,7 @@ PCA có thể được nhìn theo hai cách:
 
 Hai cách tiếp cận này là tương đương về mặt toán học.
 
-\section{Cực đại hóa phương sai}
+\subsection{Cực đại hóa phương sai}
 Với một vectơ đơn vị $u$, phương sai của dữ liệu khi chiếu lên $u$ là:
 \[
 \sigma^2 = u^T S u
@@ -1182,7 +1323,7 @@ Do đó:
     \item Phương sai tương ứng là các eigenvalue.
 \end{itemize}
 
-\section{Thu giảm số chiều}
+\subsection{Thu giảm số chiều}
 Chọn $M$ eigenvector tương ứng với $M$ eigenvalue lớn nhất, tạo thành ma trận:
 \[
 \hat{U} = [u_1, u_2, \dots, u_M]
@@ -1198,7 +1339,7 @@ Phục hồi xấp xỉ:
 \hat{X} = \mu^T + X_{\text{PCA}}\hat{U}^T
 \]
 
-\section{PCA qua API}
+\subsection{PCA qua API}
 Ví dụ PCA trong \texttt{scikit-learn}:
 \begin{verbatim}
 from sklearn.decomposition import PCA
@@ -1207,7 +1348,7 @@ pca.fit(X)
 print(pca.explained_variance_ratio_)
 \end{verbatim}
 
-\section{Singular Value Decomposition (SVD)}
+\subsection{Singular Value Decomposition (SVD)}
 Phân rã SVD:
 \[
 X = U S V^T
@@ -1218,7 +1359,7 @@ X = U S V^T
     \item SVD phân rã trực tiếp trên ma trận dữ liệu và có độ ổn định số cao hơn.
 \end{itemize}
 
-\section{Ứng dụng của PCA}
+\subsection{Ứng dụng của PCA}
 \begin{itemize}
     \item Nén dữ liệu;
     \item Trực quan hóa dữ liệu nhiều chiều;
@@ -1227,9 +1368,11 @@ X = U S V^T
 \end{itemize}
 
 
-% SECTION 10: LDA
+% SECTION 11: LDA
 % ==========================================================
-\section{Giới thiệu về LDA}
+\section{LDA}
+
+\subsection{Giới thiệu về LDA}
 
 
 \subsection{Đầu vào}
@@ -1265,7 +1408,7 @@ Mục tiêu của LDA là:
 \end{enumerate}
 
 % ==========================================================
-\section{LDA qua API}
+\subsection{LDA qua API}
 
 Ví dụ sử dụng \texttt{Scikit-learn}:
 
@@ -1282,7 +1425,7 @@ X_r = lda.fit(X, y).transform(X)
 \end{verbatim}
 
 % ==========================================================
-\section{Bài toán tối ưu}
+\subsection{Bài toán tối ưu}
 
 \subsection{Tâm của mỗi lớp}
 
@@ -1318,7 +1461,7 @@ Mục tiêu:
 \]
 
 % ==========================================================
-\section{Tìm nghiệm}
+\subsection{Tìm nghiệm}
 
 Giải bài toán tối ưu dẫn đến phương trình trị riêng:
 \[
@@ -1331,7 +1474,7 @@ Hướng chiếu tối ưu là:
 \]
 
 % ==========================================================
-\section{Trường hợp có $C$ lớp}
+\subsection{Trường hợp có $C$ lớp}
 
 \subsection{Hàm mục tiêu tổng quát}
 
@@ -1362,10 +1505,12 @@ Do ma trận $S_B$ có hạng tối đa là $C-1$.
 
 % ==========================================================
 
-% SECTION 11: ENSEMBLE 
+% SECTION 12: ENSEMBLE 
 
 % --------------------
-\section{Bias--Variance Perspective}
+\section{ENSEMBLE}
+
+\subsection{Bias--Variance Perspective}
 
 Prediction error can be decomposed into bias and variance. Bias results from
 overly simplistic assumptions, while variance reflects sensitivity to training
@@ -1381,7 +1526,7 @@ of an ensemble predictor can be approximated as
 \]
 
 % --------------------
-\section{Bagging (Bootstrap Aggregating)}
+\subsection{Bagging (Bootstrap Aggregating)}
 
 Bagging is designed to reduce variance, particularly for unstable learners such
 as decision trees.
@@ -1414,7 +1559,7 @@ Bagging is simple, highly parallelizable, and effective at variance reduction.
 However, it requires storing many models and results in slower inference.
 
 % --------------------
-\section{Random Forest}
+\subsection{Random Forest}
 
 Random Forest extends Bagging by introducing randomness in feature selection.
 Each tree is trained on a bootstrap dataset, and at each split only a random
@@ -1435,7 +1580,7 @@ Typical choices are $|F_{\text{sub}}|=\sqrt{d}$ for classification and
 $|F_{\text{sub}}|=d/3$ for regression.
 
 % --------------------
-\section{Boosting}
+\subsection{Boosting}
 
 Boosting methods train models sequentially, where each model focuses on samples
 misclassified by previous ones. Unlike Bagging, Boosting can reduce both bias
@@ -1461,7 +1606,7 @@ space. At each iteration, a new weak learner is fitted to the negative gradient
 of the loss function with respect to current predictions.
 
 % --------------------
-\section{Voting and Stacking}
+\subsection{Voting and Stacking}
 
 \subsection{Voting}
 
@@ -1476,7 +1621,7 @@ overfitting, cross-validation is used to generate out-of-fold predictions, which
 are then used as inputs for the meta-model.
 
 % --------------------
-\section{Comparison and Practical Considerations}
+\subsection{Comparison and Practical Considerations}
 
 Bagging is most effective for high-variance models, Boosting can significantly
 improve accuracy but is sensitive to noise, and Stacking offers the greatest
@@ -1485,9 +1630,11 @@ and Gradient Boosting are strong default choices for tabular data.
 
 % --------------------
 
-% SECTION 12: GENETIC ALGORITHM
+% SECTION 13: GENETIC ALGORITHM
 
-\section{Key Components of Genetic Algorithms}
+\section{GENETIC ALGORITHM}
+
+\subsection{Key Components of Genetic Algorithms}
 
 \subsection{Representation (Encoding)}
 
@@ -1544,7 +1691,7 @@ Typical mutation strategies include:
     \item Swap or inversion for permutation encoding
 \end{itemize}
 
-\section{Genetic Algorithm Framework}
+\subsection{Genetic Algorithm Framework}
 
 A standard genetic algorithm follows these steps:
 \begin{enumerate}
@@ -1564,7 +1711,7 @@ A standard genetic algorithm follows these steps:
 Termination conditions may include a maximum number of generations,
 fitness convergence, stagnation, or time limits.
 
-\section{Simple Example}
+\subsection{Simple Example}
 
 Consider maximizing the function:
 \[
@@ -1593,7 +1740,7 @@ D & 1100 & 12 & 144 \\
 After selection, crossover, and mutation, the population gradually
 converges toward the optimal solution $x=15$.
 
-\section{Parameters and Tuning}
+\subsection{Parameters and Tuning}
 
 Key parameters include:
 \begin{itemize}
@@ -1611,7 +1758,7 @@ Typical values are:
 
 Parameter selection is problem-dependent and often requires empirical tuning.
 
-\section{Advantages and Disadvantages}
+\subsection{Advantages and Disadvantages}
 
 \subsection{Advantages}
 \begin{itemize}
@@ -1629,7 +1776,7 @@ Parameter selection is problem-dependent and often requires empirical tuning.
     \item Risk of premature convergence
 \end{itemize}
 
-\section{Applications}
+\subsection{Applications}
 
 Genetic Algorithms have been successfully applied in:
 \begin{itemize}
@@ -1640,7 +1787,7 @@ Genetic Algorithms have been successfully applied in:
     \item Game AI and procedural content generation
 \end{itemize}
 
-\section{Variants and Extensions}
+\subsection{Variants and Extensions}
 
 Popular GA variants include:
 \begin{itemize}
