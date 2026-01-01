@@ -220,10 +220,6 @@ Trong đó:
 % ==================================================
 \section{Giới thiệu bài toán}
 
-Mục tiêu của bài toán là xây dựng một mô hình dự đoán từ tập huấn luyện để khi nhận một mẫu dữ liệu mới $x$, mô hình có thể dự đoán nhãn của mẫu đó.
-
-Bài giảng này tập trung vào việc xây dựng \textbf{mô hình tuyến tính} cho bài toán phân loại hai lớp, trong đó đường biên phân lớp là tuyến tính.
-
 % --------------------------------------------------
 \subsection{Đầu vào}
 
@@ -366,14 +362,6 @@ Phương pháp sử dụng:
 
 % SECTION 3: SOFTMAX REGRESSION
 
-\section{Giới thiệu bài toán}
-
-Bài toán phân loại nhiều lớp (multi-class classification) nhằm xây dựng
-một mô hình dự đoán nhãn của dữ liệu đầu vào, trong đó mỗi mẫu dữ liệu
-thuộc về một trong $K$ lớp rời rạc.
-
-Mục tiêu của bài toán là học được một mô hình từ tập huấn luyện để
-dự đoán chính xác nhãn của các mẫu dữ liệu mới.
 
 % ==================================================
 \section{Dữ liệu đầu vào}
@@ -496,62 +484,8 @@ trong đó $\eta$ là hệ số học.
 \end{itemize}
 
 % ==================================================
-\section{Kết luận}
 
-Mô hình tuyến tính kết hợp với softmax là một phương pháp nền tảng
-cho bài toán phân loại nhiều lớp, dễ cài đặt, hiệu quả và là cơ sở
-cho các mô hình học sâu phức tạp hơn.
 
-\section{Linear Regression and Logistic Regression: Recap}
-
-\subsection{Linear Regression (Single Output)}
-
-Given an input feature vector $x \in \mathbb{R}^d$, linear regression predicts
-a scalar output:
-\begin{equation}
-\hat{y} = w^\top x + b
-\end{equation}
-
-The model is trained by minimizing the Mean Squared Error (MSE):
-\begin{equation}
-\mathrm{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
-\end{equation}
-
-\textbf{Limitation:} Only linear relationships can be modeled.
-
-\subsection{Linear Regression (Multiple Outputs)}
-
-For multiple outputs $y \in \mathbb{R}^m$:
-\begin{equation}
-\hat{y} = W^\top x + b, \quad W \in \mathbb{R}^{d \times m}
-\end{equation}
-
-\subsection{Logistic Regression (Binary Classification)}
-
-Logistic regression models the probability:
-\begin{equation}
-\hat{p} = P(y=1|x) = \sigma(w^\top x + b),
-\quad \sigma(z)=\frac{1}{1+e^{-z}}
-\end{equation}
-
-Binary Cross-Entropy loss:
-\begin{equation}
-\mathcal{L}_{\text{BCE}} =
--\frac{1}{n}\sum_{i=1}^{n}
-\left[y_i \log \hat{p}_i + (1-y_i)\log(1-\hat{p}_i)\right]
-\end{equation}
-
-\subsection{Softmax Regression (Multiclass)}
-
-For $K$ classes:
-\begin{equation}
-\hat{p}_k =
-\frac{\exp(w_k^\top x + b_k)}
-{\sum_{j=1}^{K}\exp(w_j^\top x + b_j)}
-\end{equation}
-
-\textbf{Key limitation of linear models:}
-decision boundaries are linear and cannot represent complex nonlinear patterns.
 
 % SECTION 4: MLP
 % ======================================================
@@ -653,15 +587,6 @@ z, & z\ge 0\\
 \mathrm{SiLU}(z)=z\sigma(z)
 \end{equation}
 
-% ======================================================
-\section{MLP: Summary}
-
-\begin{itemize}
-    \item MLP extends linear models by introducing nonlinear feature transformations.
-    \item Architecture: stacked fully connected layers + activations.
-    \item Can approximate complex nonlinear functions.
-    \item Powerful but prone to overfitting without sufficient data or regularization.
-\end{itemize}
 
 % SECTION 5: SVM PRIMAL PROBLEM
 \section{Giới thiệu bài toán}
@@ -812,75 +737,10 @@ Trong đó:
 \end{bmatrix}
 \]
 
-% =====================================================
-\section{Tổng kết và Câu hỏi}
-
-\subsection{Tổng kết}
-
-\begin{itemize}
-    \item Số biến: $M$
-    \item Số ràng buộc: $N$
-    \item Phù hợp khi $M \ll N$
-    \item Áp dụng cho dữ liệu khả tách tuyến tính
-\end{itemize}
-
-\subsection{Câu hỏi}
-
-\begin{enumerate}
-    \item Véc-tơ $\mathbf{w}$ có ý nghĩa gì trong SVM?
-    \item Vì sao nhãn $\{-1,+1\}$ thuận lợi?
-    \item Độ rộng của lề bằng bao nhiêu?
-    \item Viết dạng ma trận của bài toán gốc.
-\end{enumerate}
-
-% =====================================================
-\section*{Tài liệu tham khảo}
-
-\begin{itemize}
-    \item C. M. Bishop, \textit{Pattern Recognition and Machine Learning}, Springer.
-    \item N. Cristianini, J. Shawe-Taylor, \textit{An Introduction to Support Vector Machines}.
-    \item \url{https://scikit-learn.org/stable/modules/svm.html}
-\end{itemize}
 
 % SECTION 6: SVM DUAL PROBLEM
 
 % =====================================================
-\section{Bài toán gốc}
-
-Cho tập dữ liệu huấn luyện
-\[
-\{(x_n,t_n)\}_{n=1}^N,\quad
-x_n \in \mathbb{R}^M,\; t_n \in \{-1,+1\}.
-\]
-
-Bài toán SVM hai lớp, khả tách tuyến tính được phát biểu như sau:
-\begin{equation}
-\begin{aligned}
-(w^\ast,b^\ast)
-&= \arg\min_{w,b} \; \frac{1}{2}\|w\|^2 \\
-\text{s.t.}\quad
-& t_n(w^T x_n + b) \ge 1,
-\quad n=1,\dots,N.
-\end{aligned}
-\label{eq:primal}
-\end{equation}
-
-Đây là một bài toán tối ưu lồi với:
-\begin{itemize}
-\item Hàm mục tiêu lồi và khả vi
-\item Các ràng buộc bất đẳng thức lồi
-\end{itemize}
-
-% =====================================================
-\section{Kiến thức liên quan}
-
-\subsection{Tối ưu lồi}
-Bài toán \eqref{eq:primal} thuộc lớp \textit{convex optimization}.
-Theo \cite{boyd}, nếu thỏa tiêu chuẩn Slater thì tồn tại \textit{strong duality}.
-
-\subsection{Máy véc-tơ hỗ trợ}
-SVM tìm siêu phẳng phân lớp có \textit{biên lớn nhất}, được xác định bởi các
-\textit{véc-tơ hỗ trợ} (support vectors).
 
 % =====================================================
 \section{Bài toán đối ngẫu}
@@ -997,35 +857,9 @@ Nhãn dự báo:
 \hat{y} = \operatorname{sign}(y(x)).
 \]
 
-% =====================================================
-\section{Tổng kết}
-
-\begin{itemize}
-\item Bài toán SVM gốc là bài toán tối ưu lồi
-\item Bài toán đối ngẫu có dạng quy hoạch toàn phương
-\item Nghiệm phụ thuộc vào một số ít véc-tơ hỗ trợ
-\item Huấn luyện và dự báo chỉ cần tích vô hướng
-\end{itemize}
 
 
 % SECTION 7: SVM SOFT MARGIN
-%------------------------------------------------
-\section{Ôn lại: Hai lớp khả tách tuyến tính}
-
-Cho tập dữ liệu huấn luyện
-\[
-\{(x_n, t_n)\}_{n=1}^N, \quad x_n \in \mathbb{R}^M, \; t_n \in \{-1, +1\}.
-\]
-
-Bài toán SVM hard-margin được phát biểu như sau:
-\begin{equation}
-\begin{aligned}
-\min_{w,b} \quad & \frac{1}{2}\|w\|^2 \\
-\text{s.t.} \quad & t_n(w^T x_n + b) \ge 1,\quad n=1,\dots,N.
-\end{aligned}
-\end{equation}
-
-Mô hình này chỉ áp dụng khi dữ liệu khả tách tuyến tính.
 
 %------------------------------------------------
 \section{Giới thiệu bài toán không khả tách tuyến tính}
@@ -1144,25 +978,9 @@ G\alpha \le h,\; A\alpha = b.
 Các ràng buộc hộp $0 \le \alpha_n \le C$ được mã hóa trong ma trận $G$ và $h$.
 
 %------------------------------------------------
-\section{Kết luận}
-
-Bài báo đã trình bày:
-\begin{itemize}
-    \item Mô hình SVM soft-margin cho dữ liệu không khả tách tuyến tính.
-    \item Dẫn xuất bài toán đối ngẫu và điều kiện KKT.
-    \item Công thức dự báo và hướng cài đặt bằng CVXOPT.
-\end{itemize}
-
-Soft Margin SVM là nền tảng quan trọng cho các phương pháp kernel và SVM phi tuyến.
 
 % SECTION 8: SVM KERNEL
 
-\section{Giới thiệu}
-SVM là phương pháp học có giám sát, nổi bật nhờ khả năng tổng quát hóa tốt.
-Ý tưởng chính của SVM là tìm siêu phẳng phân tách hai lớp dữ liệu với biên lớn nhất.
-
-Khi dữ liệu không phân tách tuyến tính, SVM có thể được mở rộng thông qua
-\textit{phương pháp kernel}.
 
 \section{SVM hai lớp với lề mềm}
 Xét tập huấn luyện $\{(x_i,t_i)\}_{i=1}^N$ với $t_i \in \{-1,+1\}$.
@@ -1281,23 +1099,9 @@ với mục tiêu:
 Các thí nghiệm với kernel đa thức và kernel RBF cho thấy khả năng
 phi tuyến hóa đường biên phân lớp một cách hiệu quả.
 
-\section{Kết luận}
-Bài báo đã trình bày SVM với lề mềm và phương pháp kernel, cho phép mở rộng
-khả năng phân lớp sang các bài toán phi tuyến. Phương pháp kernel giúp tránh
-việc tính toán trực tiếp không gian đặc trưng, đồng thời vẫn đảm bảo tính tối ưu
-của bài toán.
 
 % SECTION 9 : PCA
 
-\section{Giới thiệu}
-Trong nhiều bài toán học máy, dữ liệu đầu vào thường có số chiều rất lớn. Điều này dẫn đến các vấn đề như:
-\begin{itemize}
-    \item Độ phức tạp tính toán tăng cao;
-    \item Khoảng cách giữa các điểm dữ liệu trở nên kém ý nghĩa;
-    \item Nguy cơ quá khớp (overfitting).
-\end{itemize}
-
-Hiện tượng này thường được gọi là \emph{Curse of Dimensionality}. PCA được đề xuất nhằm giải quyết vấn đề trên bằng cách thu giảm số chiều dữ liệu.
 
 \section{Mô tả bài toán}
 Giả sử tập dữ liệu đầu vào:
@@ -1422,16 +1226,11 @@ X = U S V^T
     \item Nhận dạng mẫu và xử lý ảnh.
 \end{itemize}
 
-\section{Kết luận}
-PCA là một phương pháp mạnh mẽ và hiệu quả cho bài toán thu giảm số chiều. Dựa trên nền tảng đại số tuyến tính, PCA giúp loại bỏ nhiễu, giảm độ phức tạp và cải thiện hiệu suất của các mô hình học máy.
 
 % SECTION 10: LDA
 % ==========================================================
 \section{Giới thiệu về LDA}
 
-Linear Discriminant Analysis (LDA) là một phương pháp thu giảm số chiều có giám sát,
-trong đó thông tin nhãn của dữ liệu được sử dụng để tìm ra không gian chiếu
-sao cho các lớp được phân tách tốt nhất.
 
 \subsection{Đầu vào}
 
@@ -1562,20 +1361,8 @@ Do ma trận $S_B$ có hạng tối đa là $C-1$.
 \end{enumerate}
 
 % ==========================================================
-\section{Kết luận}
-
-Linear Discriminant Analysis là một phương pháp mạnh mẽ cho thu giảm số chiều có giám sát,
-đặc biệt hiệu quả khi mục tiêu là phân loại.
-LDA không chỉ giúp giảm độ phức tạp tính toán mà còn cải thiện hiệu năng của mô hình học máy.
 
 % SECTION 11: ENSEMBLE 
-\section{Introduction}
-
-Single learning models often suffer from limited representational power or high
-sensitivity to training data. These issues can lead to high bias, high variance,
-or both. Ensemble methods address these limitations by combining multiple
-learners into a single predictive model, following the principle known as the
-\emph{wisdom of the crowd}.
 
 % --------------------
 \section{Bias--Variance Perspective}
@@ -1697,30 +1484,8 @@ flexibility at the cost of increased complexity. In practice, Random Forests
 and Gradient Boosting are strong default choices for tabular data.
 
 % --------------------
-\section{Conclusion}
-
-Ensemble methods provide a principled way to improve predictive performance by
-combining multiple models. Understanding their assumptions and trade-offs is
-essential for effective application in real-world machine learning problems.
 
 % SECTION 12: GENETIC ALGORITHM
-\section{Introduction}
-
-Genetic Algorithm (GA) is a metaheuristic optimization algorithm inspired
-by the process of natural selection.
-It was developed by John Holland in the 1970s and belongs to the broader class
-of Evolutionary Algorithms (EA).
-
-GA is particularly effective when:
-\begin{itemize}
-    \item The search space is large or complex
-    \item The objective function is non-differentiable or discontinuous
-    \item Multiple local optima exist
-    \item Classical optimization techniques are ineffective
-\end{itemize}
-
-Unlike gradient-based methods, GA does not require derivative information
-and performs a parallel exploration of the search space.
 
 \section{Key Components of Genetic Algorithms}
 
@@ -1888,13 +1653,6 @@ Popular GA variants include:
 These variants extend GA to continuous, programmatic,
 and multi-objective optimization problems.
 
-\section{Conclusion}
-
-Genetic Algorithms provide a powerful and flexible optimization framework
-for complex problems where traditional methods fail.
-Although not guaranteed to find the global optimum,
-proper encoding and parameter tuning enable GA to produce
-high-quality approximate solutions efficiently.
 
 \end{multicols}
 
