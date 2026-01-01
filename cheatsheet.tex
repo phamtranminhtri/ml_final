@@ -17,20 +17,13 @@
 \setlength{\parindent}{0pt}
 
 % ---------------- Title ----------------
-\title{Hồi quy Logistic cho Bài toán Phân loại Hai lớp}
-\author{Lê Thành Sách\\
-Khoa Khoa học \& Kỹ thuật Máy tính\\
-Trường Đại học Bách Khoa -- ĐHQG TP.HCM\\
-\texttt{ltsach@hcmut.edu.vn}}
-\date{09/09/2019}
+
 
 \begin{document}
-% \maketitle
-
-% \tableofcontents
-% \newpage
 
 \begin{multicols}{3}
+
+% SECTION 1: LINEAR REGRESSION
 
 \section{Định nghĩa bài toán}
 
@@ -223,7 +216,7 @@ Trong đó:
     \item $\mathbf{W} \in \mathbb{R}^{M \times K}$
 \end{itemize}
 
-
+% SECTION 2: LOGISTIC REGRESSION
 % ==================================================
 \section{Giới thiệu bài toán}
 
@@ -370,6 +363,8 @@ Phương pháp sử dụng:
     \item Newton--Raphson
     \item Iterative Re-weighted Least Squares (IRLS)
 \end{itemize}
+
+% SECTION 3: SOFTMAX REGRESSION
 
 \section{Giới thiệu bài toán}
 
@@ -558,6 +553,7 @@ For $K$ classes:
 \textbf{Key limitation of linear models:}
 decision boundaries are linear and cannot represent complex nonlinear patterns.
 
+% SECTION 4: MLP
 % ======================================================
 \section{MLP: Computational Architecture View}
 
@@ -667,6 +663,7 @@ z, & z\ge 0\\
     \item Powerful but prone to overfitting without sufficient data or regularization.
 \end{itemize}
 
+% SECTION 5: SVM PRIMAL PROBLEM
 \section{Giới thiệu bài toán}
 
 \subsection{Đầu vào}
@@ -845,6 +842,8 @@ Trong đó:
     \item \url{https://scikit-learn.org/stable/modules/svm.html}
 \end{itemize}
 
+% SECTION 6: SVM DUAL PROBLEM
+
 % =====================================================
 \section{Bài toán gốc}
 
@@ -1008,6 +1007,8 @@ Nhãn dự báo:
 \item Huấn luyện và dự báo chỉ cần tích vô hướng
 \end{itemize}
 
+
+% SECTION 7: SVM SOFT MARGIN
 %------------------------------------------------
 \section{Ôn lại: Hai lớp khả tách tuyến tính}
 
@@ -1154,6 +1155,8 @@ Bài báo đã trình bày:
 
 Soft Margin SVM là nền tảng quan trọng cho các phương pháp kernel và SVM phi tuyến.
 
+% SECTION 8: SVM KERNEL
+
 \section{Giới thiệu}
 SVM là phương pháp học có giám sát, nổi bật nhờ khả năng tổng quát hóa tốt.
 Ý tưởng chính của SVM là tìm siêu phẳng phân tách hai lớp dữ liệu với biên lớn nhất.
@@ -1283,6 +1286,8 @@ Bài báo đã trình bày SVM với lề mềm và phương pháp kernel, cho p
 khả năng phân lớp sang các bài toán phi tuyến. Phương pháp kernel giúp tránh
 việc tính toán trực tiếp không gian đặc trưng, đồng thời vẫn đảm bảo tính tối ưu
 của bài toán.
+
+% SECTION 9 : PCA
 
 \section{Giới thiệu}
 Trong nhiều bài toán học máy, dữ liệu đầu vào thường có số chiều rất lớn. Điều này dẫn đến các vấn đề như:
@@ -1420,6 +1425,7 @@ X = U S V^T
 \section{Kết luận}
 PCA là một phương pháp mạnh mẽ và hiệu quả cho bài toán thu giảm số chiều. Dựa trên nền tảng đại số tuyến tính, PCA giúp loại bỏ nhiễu, giảm độ phức tạp và cải thiện hiệu suất của các mô hình học máy.
 
+% SECTION 10: LDA
 % ==========================================================
 \section{Giới thiệu về LDA}
 
@@ -1562,7 +1568,7 @@ Linear Discriminant Analysis là một phương pháp mạnh mẽ cho thu giảm
 đặc biệt hiệu quả khi mục tiêu là phân loại.
 LDA không chỉ giúp giảm độ phức tạp tính toán mà còn cải thiện hiệu năng của mô hình học máy.
 
-
+% SECTION 11: ENSEMBLE 
 \section{Introduction}
 
 Single learning models often suffer from limited representational power or high
@@ -1697,6 +1703,7 @@ Ensemble methods provide a principled way to improve predictive performance by
 combining multiple models. Understanding their assumptions and trade-offs is
 essential for effective application in real-world machine learning problems.
 
+% SECTION 12: GENETIC ALGORITHM
 \section{Introduction}
 
 Genetic Algorithm (GA) is a metaheuristic optimization algorithm inspired
