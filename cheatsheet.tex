@@ -20,7 +20,11 @@
 \usepackage{titlesec}
 \titlespacing*{\section}{0pt}{0em}{0em}
 % \everymath{\displaystyle}
-
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries} % font settings
+  {\thesection}                     % label
+  {1em}                             % spacing between label and title
+  {}                                % before-code
 
 \begin{document}
 
@@ -450,22 +454,27 @@ $
 \theta \leftarrow \theta - \eta \nabla_\theta L.
 $
 
-\textbf{Training Algorithm}
-\begin{algorithm}[H]
-\caption{SGD Training Procedure}
-\begin{algorithmic}[1]
-\STATE Initialize parameters $\theta$
-\FOR{epoch = 1 to $E$}
-    \STATE Shuffle dataset and create mini-batches
-    \FOR{each mini-batch $(X,y)$}
-        \STATE Forward pass
-        \STATE Compute loss $L$
-        \STATE Backward pass: compute $\nabla_\theta L$
-        \STATE Update: $\theta \leftarrow \theta - \eta \nabla_\theta L$
-    \ENDFOR
-\ENDFOR
-\end{algorithmic}
-\end{algorithm}
+\textbf{Training Algorithm (SGD)}
+
+Initialize parameters $\theta$.
+
+For epoch $= 1$ to $E$ do:
+
+Shuffle   dataset and create mini-batches.
+
+For each mini-batch $(X, y)$ do:
+
+Perform a forward pass.
+
+Compute   loss $L$.
+
+Perform a backward pass and compute   gradient $\nabla_\theta L$.
+
+Update   parameters:
+$
+\theta \leftarrow \theta - \eta \nabla_\theta L .
+$
+
 
 \textbf{SGD with Momentum:}
 
@@ -482,7 +491,7 @@ v_t = \beta_2 v_{t-1} + (1-\beta_2)g_t^2, \\
 $
 
 \textbf{AdamW:}
- decouples weight decay from the gradient update
+ decouples weight decay from   gradient update
 
 % \textbf{Training Techniques:}
 
@@ -655,11 +664,10 @@ $
 w = \sum_{n=1}^N \alpha_n t_n x_n.
 $
 
-Thay vào Lagrangian, được hàm đối ngẫu:
-
+Thay Lagrangian, hàm đối ngẫu:
 $
 g(\alpha)
-=
+=\\
 \sum_{n=1}^N \alpha_n
 -
 \frac{1}{2}
@@ -725,10 +733,10 @@ $
 
 \textbf{Ràng buộc mới}
 
-\begin{align}
-t_n(w^T x_n + b) &\ge 1 - \xi_n, \quad n=1,\dots,N, \\
-\xi_n &\ge 0.
-\end{align}
+$
+t_n(w^T x_n + b) \ge 1 - \xi_n, \quad n=1,\dots,N, \\
+\xi_n \ge 0.
+$
 
 \textbf{Hàm mục tiêu mới}
 
@@ -736,54 +744,46 @@ $
 f_0(w,b,\xi) =
 \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n,
 $
-trong đó $C > 0$ là siêu tham số điều chỉnh mức phạt.
+ $C > 0$ là siêu tham số điều chỉnh mức phạt.
 
 \textbf{Bài toán tối ưu}
 
 $
-\begin{aligned}
-\min_{w,b,\xi} \quad &
+\min_{w,b,\xi} \quad 
 \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n \\
-\text{s.t.} \quad &
+\text{s.t.} \quad 
 t_n(w^T x_n + b) \ge 1 - \xi_n, \\
-& \xi_n \ge 0,\quad n=1,\dots,N.
-\end{aligned}
+ \xi_n \ge 0,\quad n=1,\dots,N.
 $
 
 %------------------------------------------------
 \textbf{Bài toán đối ngẫu}
 
-\textbf{Hàm Lagrangian}
+\textbf{Hàm Lagrangian:}
 
 $
-\begin{aligned}
-L(w,b,\xi,\alpha,\mu) &=
-\frac{1}{2}\|w\|^2 + C\sum_{n=1}^N \xi_n \\
-&\quad - \sum_{n=1}^N \alpha_n[t_n(w^T x_n + b)-1+\xi_n]
-- \sum_{n=1}^N \mu_n \xi_n.
-\end{aligned}
+L(w,b,\xi,\alpha,\mu) =
+\frac{1}{2}\|w\|^2 + C\sum_{n=1}^N \xi_n \\ - \sum_{n=1}^N \alpha_n[t_n(w^T x_n + b)-1+\xi_n]\\ - \sum_{n=1}^N \mu_n \xi_n.
 $
 
 \textbf{Điều kiện KKT}
 
-\begin{align}
-w &= \sum_{n=1}^N \alpha_n t_n x_n, \\
-\sum_{n=1}^N \alpha_n t_n &= 0, \\
-0 &\le \alpha_n \le C.
-\end{align}
+$
+w = \sum_{n=1}^N \alpha_n t_n x_n, 
+\sum_{n=1}^N \alpha_n t_n = 0, \\
+0 \le \alpha_n \le C.
+$
 
 \textbf{Bài toán đối ngẫu}
 
 $
-\begin{aligned}
-\min_{\alpha} \quad &
+\min_{\alpha}  
 \frac{1}{2}\sum_{r=1}^N\sum_{c=1}^N
-\alpha_r \alpha_c t_r t_c x_r^T x_c
+\alpha_r \alpha_c t_r t_c x_r^T x_c\\
 - \sum_{n=1}^N \alpha_n \\
-\text{s.t.} \quad &
-0 \le \alpha_n \le C, \\
-& \sum_{n=1}^N \alpha_n t_n = 0.
-\end{aligned}
+\text{s.t.} \quad 
+0 \le \alpha_n \le C, 
+ \sum_{n=1}^N \alpha_n t_n = 0.
 $
 
 %------------------------------------------------
@@ -807,7 +807,7 @@ Bài toán đối ngẫu có dạng chuẩn:
 $
 \min_{\alpha} \quad
 \frac{1}{2}\alpha^T K \alpha + p^T \alpha
-\quad \text{s.t.} \quad
+\\ \text{s.t.} \quad
 G\alpha \le h,\; A\alpha = b.
 $
 
@@ -820,18 +820,12 @@ Các ràng buộc hộp $0 \le \alpha_n \le C$ được mã hóa trong ma trận
 
 \section{SVM kernel}
 
-\textbf{SVM hai lớp với lề mềm}
-Xét tập huấn luyện $\{(x_i,t_i)\}_{i=1}^N$ với $t_i \in \{-1,+1\}$.
-Bài toán đối ngẫu của SVM lề mềm được viết dưới dạng:
+
+Bài toán đối ngẫu của SVM lề mềm:
 
 $
 \alpha^* = \arg\min_{\alpha}
 \frac{1}{2}\alpha^T K \alpha + p^T \alpha
-$
-
-với các ràng buộc:
-$
-G\alpha \le h, \qquad A\alpha = b
 $
 
 Trong đó, ma trận kernel $K$ được xác định bởi tích vô hướng giữa các điểm dữ liệu.
@@ -855,38 +849,24 @@ $
 \text{label} = \text{sign}(y)
 $
 
-\textbf{Khi đường biên giới phi tuyến}
-Trong nhiều bài toán thực tế, dữ liệu không thể phân tách tuyến tính.
-Giải pháp là ánh xạ dữ liệu thông qua hàm trích đặc trưng:
-$
-\Phi: \mathbb{R}^d \rightarrow \mathcal{H}
-$
 
-Tuy nhiên, việc tính trực tiếp $\Phi(x)$ có thể tốn kém hoặc không khả thi
-khi không gian đặc trưng có số chiều rất lớn hoặc vô hạn.
-
-\textbf{Phương pháp Kernel}
-Phương pháp kernel cho phép tính:
+\textbf{Phương pháp Kernel:} Tính giá trị
 $
 \langle \Phi(x_i), \Phi(x_j) \rangle
-$
-mà không cần biết tường minh $\Phi(x)$, thông qua một hàm kernel:
+$ thông qua  kernel:
 $
 k(x_i,x_j)
 $
 
-\textbf{Điều kiện Mercer}
-Một hàm $k(x_i,x_j)$ là kernel hợp lệ nếu:
-\begin{itemize}
-\item Đối xứng: $k(x_i,x_j) = k(x_j,x_i)$
-\item Bán định dương:
+\textbf{Điều kiện Mercer:}
+Một hàm $k(x_i,x_j)$ là kernel hợp lệ nếu:  Đối xứng: $k(x_i,x_j) = k(x_j,x_i)$;
+ Bán định dương:
 $
 \sum_{i=1}^N \sum_{j=1}^N c_i c_j k(x_i,x_j) \ge 0
 $
-\end{itemize}
 
 \textbf{Huấn luyện và dự báo với Kernel}
-Ma trận Gram kernel:
+
 $
 K_{Gram} =
 \begin{bmatrix}
@@ -896,46 +876,31 @@ k(x_N,x_1) & \cdots & k(x_N,x_N)
 \end{bmatrix}
 $
 
-Việc sử dụng kernel đảm bảo bài toán tối ưu là lồi và có nghiệm toàn cục.
-
 \textbf{Các kernel thông dụng}
-Một số kernel phổ biến trong thực tế:
 
-\begin{itemize}
-\item \textbf{Linear}:
+{Linear}:
 $
 k(x,x') = x^T x'
 $
 
-\item \textbf{Polynomial}:
+{Polynomial}:
 $
 k(x,x') = (\gamma x^T x' + r)^d
 $
 
-\item \textbf{RBF (Gaussian)}:
+{RBF (Gaussian)}:
+
 $
 k(x,x') = \exp(-\gamma \|x-x'\|^2)
 $
 
-\item \textbf{Sigmoid}:
+{Sigmoid}:
 $
 k(x,x') = \tanh(\gamma x^T x' + r)
 $
-\end{itemize}
 
-Kernel RBF tương ứng với không gian đặc trưng vô hạn chiều.
-
-\textbf{Thiết kế Kernel}
-Việc thiết kế kernel phụ thuộc mạnh vào kiến thức miền (domain knowledge),
-với mục tiêu:
-\begin{itemize}
-\item $k(x_i,x_j)$ lớn nếu $x_i, x_j$ cùng lớp
-\item $k(x_i,x_j)$ nhỏ nếu khác lớp
-\end{itemize}
-
-\textbf{Minh họa}
-Các thí nghiệm với kernel đa thức và kernel RBF cho thấy khả năng
-phi tuyến hóa đường biên phân lớp một cách hiệu quả.
+\textbf{Thiết kế Kernel:}
+  $k(x_i,x_j)$ lớn nếu $x_i, x_j$ cùng lớp; $k(x_i,x_j)$ nhỏ nếu khác lớp
 
 
 % SECTION 10 : PCA
@@ -943,31 +908,13 @@ phi tuyến hóa đường biên phân lớp một cách hiệu quả.
 
 \section{PCA}
 
-\textbf{Mô tả bài toán}
-Giả sử tập dữ liệu đầu vào:
-$
-X =
-\begin{bmatrix}
-x_{1,1} & x_{1,2} & \cdots & x_{1,D} \\
-x_{2,1} & x_{2,2} & \cdots & x_{2,D} \\
-\vdots  & \vdots  & \ddots & \vdots  \\
-x_{N,1} & x_{N,2} & \cdots & x_{N,D}
-\end{bmatrix}
-$
-trong đó:
-\begin{itemize}
-    \item $X \in \mathbb{R}^{N \times D}$;
-    \item $D$ rất lớn và các chiều có tương quan với nhau.
-\end{itemize}
+Tập dữ liệu  $X \in \mathbb{R}^{N \times D}$;
 
-\textbf{Mục tiêu:}
-\begin{enumerate}
-    \item Giảm số chiều từ $D$ xuống $M$ với $M \ll D$;
-    \item Các đặc trưng mới không còn tương quan tuyến tính.
-\end{enumerate}
 
-\textbf{Kiến thức toán học liên quan}
-\textbf{Phương sai và hiệp phương sai}
+\textbf{Mục tiêu:}  Giảm số chiều từ $D$ xuống $M$ với $M \ll D$;
+ Các đặc trưng mới không còn tương quan tuyến tính. 
+
+\textbf{Phương sai và hiệp phương sai:}
 Trung bình của dữ liệu:
 $
 \mu = \frac{1}{N}\sum_{n=1}^{N} x_n
@@ -979,48 +926,37 @@ z_n = x_n - \mu
 $
 
 Ma trận hiệp phương sai:
+
 $
 S = \frac{1}{N}\sum_{n=1}^{N}(x_n - \mu)(x_n - \mu)^T
 $
 
-\textbf{Eigenvalue và Eigenvector}
-Với ma trận vuông $A$, bài toán eigen:
+
 $
 Au = \lambda u
-$
-trong đó $u$ là eigenvector và $\lambda$ là eigenvalue.
+$,
+ $u$ là eigenvector, $\lambda$ là eigenvalue.
 
-\textbf{Cơ sở lý luận của PCA}
-PCA có thể được nhìn theo hai cách:
-\begin{itemize}
-    \item Cực đại hóa phương sai của dữ liệu sau khi chiếu;
-    \item Cực tiểu hóa sai số phục hồi dữ liệu.
-\end{itemize}
 
-Hai cách tiếp cận này là tương đương về mặt toán học.
-
-\textbf{Cực đại hóa phương sai}
-Với một vectơ đơn vị $u$, phương sai của dữ liệu khi chiếu lên $u$ là:
+\textbf{Cực đại hóa phương sai:}
+vectơ đơn vị $u$, phương sai dữ liệu chiếu lên $u$ là:
 $
 \sigma^2 = u^T S u
 $
 
 Bài toán tối ưu:
 $
-\max_{u} \quad u^T S u
-\quad \text{s.t.} \quad u^T u = 1
+\max_{u}  u^T S u\
+ \text{ s.t. }  u^T u = 1
 $
 
-Sử dụng nhân tử Lagrange dẫn đến:
+Dùng nhân tử Lagrange dẫn đến:
 $
 Su = \lambda u
 $
 
-Do đó:
-\begin{itemize}
-    \item Các trục chính của PCA là các eigenvector của $S$;
-    \item Phương sai tương ứng là các eigenvalue.
-\end{itemize}
+Trục chính của PCA là các eigenvector của $S$;
+ Phương sai tương ứng là các eigenvalue. 
 
 \textbf{Thu giảm số chiều}
 Chọn $M$ eigenvector tương ứng với $M$ eigenvalue lớn nhất, tạo thành ma trận:
@@ -1038,93 +974,27 @@ $
 \hat{X} = \mu^T + X_{\text{PCA}}\hat{U}^T
 $
 
-\textbf{PCA qua API}
-Ví dụ PCA trong \texttt{scikit-learn}:
-\begin{verbatim}
-from sklearn.decomposition import PCA
-pca = PCA(n_components=2)
-pca.fit(X)
-print(pca.explained_variance_ratio_)
-\end{verbatim}
 
-\textbf{Singular Value Decomposition (SVD)}
+\textbf{SVD:}
 Phân rã SVD:
 $
 X = U S V^T
 $
 
-\begin{itemize}
-    \item PCA thực hiện eigen-decomposition trên ma trận hiệp phương sai;
-    \item SVD phân rã trực tiếp trên ma trận dữ liệu và có độ ổn định số cao hơn.
-\end{itemize}
+PCA thực hiện eigen-decomposition trên ma trận hiệp phương sai;
+ SVD phân rã trực tiếp trên ma trận dữ liệu và có độ ổn định số cao hơn.
 
-\textbf{Ứng dụng của PCA}
-\begin{itemize}
-    \item Nén dữ liệu;
-    \item Trực quan hóa dữ liệu nhiều chiều;
-    \item Tiền xử lý cho học máy;
-    \item Nhận dạng mẫu và xử lý ảnh.
-\end{itemize}
 
 
 % SECTION 11: LDA
 % ==========================================================
 \section{LDA}
 
-\textbf{Giới thiệu về LDA}
+Tập dữ liệu:  $X \in \mathbb{R}^{N \times D}$, với $D$ thường rất lớn.  $t_k \in \{1,2,\ldots,C\}$ là nhãn lớp của điểm dữ liệu thứ $k$ $\Rightarrow$
+ Giảm số chiều từ $D$ xuống $M$, với $M \le C - 1$.  Dữ liệu có độ phân tách giữa các lớp là lớn nhất. 
 
+% =============================== 
 
-\textbf{Đầu vào}
-
-Cho tập dữ liệu:
-$
-X =
-\begin{bmatrix}
-x_{1,1} & x_{1,2} & \cdots & x_{1,D} \\
-x_{2,1} & x_{2,2} & \cdots & x_{2,D} \\
-\vdots  & \vdots  & \ddots & \vdots  \\
-x_{N,1} & x_{N,2} & \cdots & x_{N,D}
-\end{bmatrix},
-\quad
-t =
-\begin{bmatrix}
-t_1 \\ t_2 \\ \vdots \\ t_N
-\end{bmatrix}
-$
-
-Trong đó:
-\begin{itemize}
-  \item $X \in \mathbb{R}^{N \times D}$, với $D$ thường rất lớn.
-  \item $t_k \in \{1,2,\ldots,C\}$ là nhãn lớp của điểm dữ liệu thứ $k$.
-\end{itemize}
-
-\textbf{Mục tiêu}
-
-Mục tiêu của LDA là:
-\begin{enumerate}
-  \item Giảm số chiều từ $D$ xuống $M$, với $M \le C - 1$.
-  \item Dữ liệu sau khi chiếu có độ phân tách giữa các lớp là lớn nhất.
-\end{enumerate}
-
-% ==========================================================
-\textbf{LDA qua API}
-
-Ví dụ sử dụng \texttt{Scikit-learn}:
-
-\begin{verbatim}
-from sklearn import datasets
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
-iris = datasets.load_iris()
-X = iris.data
-y = iris.target
-
-lda = LinearDiscriminantAnalysis(n_components=2)
-X_r = lda.fit(X, y).transform(X)
-\end{verbatim}
-
-% ==========================================================
-\textbf{Bài toán tối ưu}
 
 \textbf{Tâm của mỗi lớp}
 
@@ -1160,8 +1030,7 @@ $
 $
 
 % ==========================================================
-\textbf{Tìm nghiệm}
-
+\textbf{Tìm nghiệm:}
 Giải bài toán tối ưu dẫn đến phương trình trị riêng:
 $
 S_W^{-1} S_B \mathbf{w} = \lambda \mathbf{w}
@@ -1175,33 +1044,24 @@ $
 % ==========================================================
 \textbf{Trường hợp có $C$ lớp}
 
-\textbf{Hàm mục tiêu tổng quát}
-
+Hàm mục tiêu:
 $
 J(W) =
 \frac{\text{trace}(W^T S_B W)}
      {\text{trace}(W^T S_W W)}
 $
 
-\textbf{Số chiều tối đa}
-
-Số chiều tối đa có thể chọn là:
+\textbf{Số chiều tối đa:}
 $
 M \le C - 1
 $
 
 Do ma trận $S_B$ có hạng tối đa là $C-1$.
 
-\textbf{Giải thuật LDA}
-
-\begin{enumerate}
-  \item Tính $S_B$ và $S_W$.
-  \item Tính $A = S_W^{-1} S_B$.
-  \item Thực hiện SVD hoặc eigen-decomposition.
-  \item Chọn $M$ eigenvector tương ứng với eigenvalue lớn nhất.
-  \item Chiếu dữ liệu: $\hat{X} = (X - m^T)W$.
-\end{enumerate}
-
+\textbf{Giải thuật LDA:}
+ Tính $S_B$ và $S_W$.  Tính $A = S_W^{-1} S_B$.  Thực hiện SVD hoặc eigen-decomposition.
+ Chọn $M$ eigenvector tương ứng với eigenvalue lớn nhất.
+ Chiếu dữ liệu: $\hat{X} = (X - m^T)W$.
 % ==========================================================
 
 % SECTION 12: ENSEMBLE 
@@ -1209,40 +1069,31 @@ Do ma trận $S_B$ có hạng tối đa là $C-1$.
 % --------------------
 \section{Ensemble}
 
-\textbf{Bias--Variance Perspective}
-
-Prediction error can be decomposed into bias and variance. Bias results from
-overly simplistic assumptions, while variance reflects sensitivity to training
-data fluctuations. Ensemble learning aims to reduce variance by averaging
-predictions of multiple weakly correlated models. For regression, the variance
-of an ensemble predictor can be approximated as
+Variance
+of ensemble regression: 
 $
 \mathrm{Var}\left(
 \frac{1}{M} \sum_{m=1}^{M} \hat{y}^{(m)}
 \right)
 \approx
-\frac{1}{M^2} \sum_{m=1}^{M} \mathrm{Var}(\hat{y}^{(m)}).
+\frac{1}{M^2} \sum_{m=1}^{M} \mathrm{Var}(\hat{y}^{(m)})
 $
 
 % --------------------
 \textbf{Bagging (Bootstrap Aggregating)}
 
-Bagging is designed to reduce variance, particularly for unstable learners such
-as decision trees.
 
-\textbf{Method Description}
-
-Given a training dataset
+Training dataset
 $
 D = \{(x_i, y_i)\}_{i=1}^{n},
 $
-Bagging constructs an ensemble of $M$ models as follows:
-\begin{enumerate}[label=\arabic*.]
-\item Draw $M$ bootstrap datasets $D_1, D_2, \dots, D_M$ by sampling $n$ points
+
+(1) Draw $M$ bootstrap datasets by sampling $n$ points
 with replacement from $D$.
-\item Train a base learner on each bootstrap dataset to obtain models
+(2) Train base learner on each bootstrap to obtain models
 $h_1, h_2, \dots, h_M$.
-\item Combine predictions of all models:
+(3) Combine predictions of all models:
+
 $
 \hat{y}(x) =
 \begin{cases}
@@ -1250,82 +1101,48 @@ $
 \text{majority vote}, & \text{classification}.
 \end{cases}
 $
-\end{enumerate}
-
-\textbf{Properties}
-
-Bagging is simple, highly parallelizable, and effective at variance reduction.
-However, it requires storing many models and results in slower inference.
 
 % --------------------
-\textbf{Random Forest}
-
-Random Forest extends Bagging by introducing randomness in feature selection.
-Each tree is trained on a bootstrap dataset, and at each split only a random
-subset of features is considered.
-
-\textbf{Training Procedure}
-
-For each tree:
-\begin{enumerate}[label=\arabic*.]
-\item Sample a bootstrap dataset from the training set.
-\item Grow a decision tree by recursively splitting nodes.
-\item At each split, randomly select a subset of features
-$F_{\text{sub}} \subset \{1,\dots,d\}$.
-\item Choose the best split using only features in $F_{\text{sub}}$.
-\end{enumerate}
-
-Typical choices are $|F_{\text{sub}}|=\sqrt{d}$ for classification and
+\textbf{Random Forest:}
+(1) Sample bootstrap dataset from  train set.
+(2) Grow tree by recursively splitting nodes.
+(3) At each split, randomly select subset of features
+$F_{\text{sub}} \subset \{1,\dots,d\}$. (4) Choose best split using only features in $F_{\text{sub}}$. 
+$|F_{\text{sub}}|=\sqrt{d}$ for classification,
 $|F_{\text{sub}}|=d/3$ for regression.
 
 % --------------------
-\textbf{Boosting}
-
-Boosting methods train models sequentially, where each model focuses on samples
-misclassified by previous ones. Unlike Bagging, Boosting can reduce both bias
+\textbf{Boosting:}  train models sequentially, where each model focuses on samples
+misclassified by previous ones. Reduce both bias
 and variance.
 
 \textbf{AdaBoost}
 
 For binary classification with $y_i \in \{-1,+1\}$, AdaBoost maintains a weight
 distribution over training samples. At iteration $t$, a weak learner $h_t$ is
-trained using weighted data. The final classifier is
+trained using weighted data.   final classifier is
 $
 H(x) = \mathrm{sign}
 \left(
 \sum_{t=1}^{T} \alpha_t h_t(x)
 \right),
 $
-where $\alpha_t$ is determined by the weighted classification error of $h_t$.
+where $\alpha_t$ is determined by   weighted classification error of $h_t$.
 
-\textbf{Gradient Boosting}
-
-Gradient Boosting views ensemble construction as gradient descent in function
-space. At each iteration, a new weak learner is fitted to the negative gradient
-of the loss function with respect to current predictions.
+\textbf{Gradient Boosting:} views ensemble construction as gradient descent in function
+space. Each iteration, new weak learner is fitted to negative gradient
+of loss function with respect to current predictions.
 
 % --------------------
-\textbf{Voting and Stacking}
 
-\textbf{Voting}
+\textbf{Voting:}
+majority or probability averaging
 
-Voting combines predictions of multiple models using a fixed rule such as
-majority voting or probability averaging. It is simple and often serves as a
-strong baseline.
-
-\textbf{Stacking}
-
-Stacking trains a meta-learner on predictions of base models. To avoid
+\textbf{Stacking:} trains a meta-learner on predictions of base models. 
+To avoid
 overfitting, cross-validation is used to generate out-of-fold predictions, which
-are then used as inputs for the meta-model.
+are then used as inputs for   meta-model.
 
-% --------------------
-\textbf{Comparison and Practical Considerations}
-
-Bagging is most effective for high-variance models, Boosting can significantly
-improve accuracy but is sensitive to noise, and Stacking offers the greatest
-flexibility at the cost of increased complexity. In practice, Random Forests
-and Gradient Boosting are strong default choices for tabular data.
 
 % --------------------
 
@@ -1333,171 +1150,52 @@ and Gradient Boosting are strong default choices for tabular data.
 
 \section{Genetic algorithm}
 
-\textbf{Key Components of Genetic Algorithms}
-
-\textbf{Representation (Encoding)}
-
-A solution is encoded as a chromosome. Common encoding methods include:
-\begin{itemize}
-    \item \textbf{Binary encoding}: chromosomes consist of bits (0 or 1)
-    \item \textbf{Real-valued encoding}: genes are real numbers
-    \item \textbf{Permutation encoding}: chromosomes represent ordered sequences
-    \item \textbf{Tree encoding}: solutions are tree structures (used in genetic programming)
-\end{itemize}
+A solution is encoded as a chromosome. 
+{Binary encoding}
+{Real-valued encoding}
+{Permutation encoding}
+{Tree encoding}
 
 \textbf{Fitness Function}
 
-The fitness function $f(x)$ evaluates the quality of a solution $x$.
-For minimization problems, a transformation is typically applied, such as:
+Eval quality of solution $x$.
+For minimization problems, a transformation is typically applied, 
 $
 f_{\text{max}}(x) = \frac{1}{1 + f_{\text{min}}(x)}
 $
 
-The fitness function should be computationally efficient, as it is evaluated
-many times during the evolutionary process.
 
-\textbf{Selection}
+\textbf{Selection:}  Roulette wheel selection; Rank selection;  Tournament selection; Elitism
 
-Selection chooses parent solutions based on fitness.
-Popular methods include:
-\begin{itemize}
-    \item Roulette wheel selection
-    \item Rank selection
-    \item Tournament selection
-    \item Elitism
-\end{itemize}
 
-Elitism ensures that the best individuals are preserved across generations.
+\textbf{Crossover:}  Single-point crossover; Two-point crossover; Uniform crossover; Arithmetic crossover (for real-valued encoding)
 
-\textbf{Crossover}
+\textbf{Mutation:} Bit flipping for binary encoding; Gaussian or uniform noise for real-valued encoding; Swap or inversion for permutation encoding
 
-Crossover combines genetic material from two parents to produce offspring.
-Common techniques include:
-\begin{itemize}
-    \item Single-point crossover
-    \item Two-point crossover
-    \item Uniform crossover
-    \item Arithmetic crossover (for real-valued encoding)
-\end{itemize}
+\textbf{GA:}
+(1) Init population of $N$ individuals
+(2) Eval fitness each individual
+(3) Repeat:
+        (a) Select parents based on fitness
+        (b) Apply crossover to generate offspring
+        (c) Apply mutation to offspring
+        (d) Evaluate fitness of new individuals
+        (e) Form   next generation (with optional elitism)
 
-\textbf{Mutation}
-
-Mutation introduces random changes to maintain population diversity.
-Typical mutation strategies include:
-\begin{itemize}
-    \item Bit flipping for binary encoding
-    \item Gaussian or uniform noise for real-valued encoding
-    \item Swap or inversion for permutation encoding
-\end{itemize}
-
-\textbf{Genetic Algorithm Framework}
-
-A standard genetic algorithm follows these steps:
-\begin{enumerate}
-    \item Initialize a population of $N$ individuals
-    \item Evaluate fitness of each individual
-    \item Repeat until a termination condition is met:
-    \begin{enumerate}
-        \item Select parents based on fitness
-        \item Apply crossover to generate offspring
-        \item Apply mutation to offspring
-        \item Evaluate fitness of new individuals
-        \item Form the next generation (with optional elitism)
-    \end{enumerate}
-    \item Return the best solution found
-\end{enumerate}
-
-Termination conditions may include a maximum number of generations,
+Break conditions: max \# of gen,
 fitness convergence, stagnation, or time limits.
 
-\textbf{Simple Example}
+\textbf{Parameters and Tuning:}
+Population size ($N = 20$--$200$);
+Crossover probability ($p_c = 0.6$--$0.9$);
+Mutation probability ($p_m = 0.001$--$0.1$)
 
-Consider maximizing the function:
-$
-f(x) = x^2, \quad x \in \{0,1,\ldots,15\}
-$
 
-Binary encoding with 4 bits is used.
-An example initial population is shown in Table~\ref{tab:initpop}.
-
-\begin{table}[h]
-\centering
-\caption{Initial population}
-\label{tab:initpop}
-\begin{tabular}{cccc}
-\toprule
-Individual & Binary & $x$ & $f(x)$ \\
-\midrule
-A & 0110 & 6 & 36 \\
-B & 1001 & 9 & 81 \\
-C & 0011 & 3 & 9 \\
-D & 1100 & 12 & 144 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-After selection, crossover, and mutation, the population gradually
-converges toward the optimal solution $x=15$.
-
-\textbf{Parameters and Tuning}
-
-Key parameters include:
-\begin{itemize}
-    \item Population size ($N$)
-    \item Crossover probability ($p_c$)
-    \item Mutation probability ($p_m$)
-\end{itemize}
-
-Typical values are:
-\begin{itemize}
-    \item $N = 20$--$200$
-    \item $p_c = 0.6$--$0.9$
-    \item $p_m = 0.001$--$0.1$
-\end{itemize}
-
-Parameter selection is problem-dependent and often requires empirical tuning.
-
-\textbf{Advantages and Disadvantages}
-
-\textbf{Advantages}
-\begin{itemize}
-    \item Global search capability
-    \item No requirement for gradient information
-    \item Parallelizable structure
-    \item Flexible solution representation
-\end{itemize}
-
-\textbf{Disadvantages}
-\begin{itemize}
-    \item No guarantee of global optimality
-    \item Computationally expensive
-    \item Sensitive to parameter settings
-    \item Risk of premature convergence
-\end{itemize}
-
-\textbf{Applications}
-
-Genetic Algorithms have been successfully applied in:
-\begin{itemize}
-    \item Combinatorial optimization (TSP, scheduling)
-    \item Machine learning (feature selection, hyperparameter tuning)
-    \item Engineering design (antennas, circuits)
-    \item Bioinformatics (protein structure prediction)
-    \item Game AI and procedural content generation
-\end{itemize}
-
-\textbf{Variants and Extensions}
-
-Popular GA variants include:
-\begin{itemize}
-    \item Real-Coded Genetic Algorithms (RCGA)
-    \item Differential Evolution (DE)
-    \item Genetic Programming (GP)
-    \item Multi-objective Genetic Algorithms (e.g., NSGA-II)
-\end{itemize}
-
-These variants extend GA to continuous, programmatic,
-and multi-objective optimization problems.
+\textbf{Variants and Extensions:}
+RCGA;
+DE;
+GP;
+NSGA-II
 
 
 \end{multicols}
