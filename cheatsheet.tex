@@ -93,15 +93,14 @@ $
 
 
 % =====================================================
-\textbf{Đánh giá mô hình}
+% \textbf{Đánh giá mô hình}
 
 \textbf{Dự báo:}
 $
 \hat{\mathbf{y}} = \mathbf{X}\mathbf{w}_{ML}
 $
 
-\textbf{Các độ đo}
-
+\textbf{Các độ đo:}
 $
 \mathrm{MSE}
 = \frac{1}{N}\sum_{n=1}^N (t_n - \hat{y}_n)^2
@@ -112,8 +111,7 @@ $
 $
 
 % =====================================================
-\textbf{Hạn chế quá khớp}
-
+\textbf{Hạn chế quá khớp:}
 \textbf{Ridge Regression}
 
 $
@@ -158,8 +156,7 @@ $
 \sigma(z) = \frac{1}{1 + e^{-z}}
 $
 
-\textbf{Mô hình dự báo:}
-
+\textbf{Mô hình:}
 $
 \hat{y} = p(C_1|x,w) = \sigma(w^T x)
 \label{eq:logistic}
@@ -169,7 +166,7 @@ Nếu $\hat{y} \ge \lambda$ thì $x \in C_1$.
 Ngược lại, $x \in C_0$
 
 % ==================================================
-\textbf{Ước lượng tham số của mô hình}
+% \textbf{Ước lượng tham số của mô hình}
 
 \textbf{Xây dựng hàm mục tiêu}
 
@@ -186,7 +183,7 @@ $
 p(t|X,w) = \prod_{n=1}^{N} \hat{y}_n^{y_n} (1-\hat{y}_n)^{1-y_n}
 $
 
-\textbf{Negative log-likelihood}:
+\textbf{Neg log likelihood (BCE)}:
 $
 L(w) = -\sum_{n=1}^{N}
 [
@@ -194,7 +191,7 @@ y_n \log \hat{y}_n + (1-y_n)\log(1-\hat{y}_n)
 ]
 $
 
-Hàm này còn được gọi là \textbf{cross-entropy}.
+% Hàm này còn được gọi là \textbf{cross-entropy}.
 
 \textbf{Tìm hệ số của mô hình}
 
@@ -217,7 +214,7 @@ $
 R_{nn} = \hat{y}_n(1-\hat{y}_n)
 $
 
-Phương pháp sử dụng: Gradient Descent, Newton--Raphson, Iterative Re-weighted Least Squares (IRLS)
+\textbf{Method:} GD, Newton--Raphson, IRLS
 
 % SECTION 3: SOFTMAX REGRESSION
 
@@ -228,7 +225,7 @@ Phương pháp sử dụng: Gradient Descent, Newton--Raphson, Iterative Re-weig
 Mỗi nhãn được mã hóa dưới dạng véctơ one-hot kích thước $K$.
 % ==================================================
 
-\textbf{Mô hình tuyến tính với Softmax}
+% \textbf{Mô hình tuyến tính với Softmax}
 
 \textbf{Mô hình dự báo}
 
@@ -254,7 +251,7 @@ $
 \hat{y}_k = \frac{\exp(z_k)}{\sum_{i=1}^{K} \exp(z_i)}
 $
 
-\textbf{Dự đoán}
+% \textbf{Dự đoán}
 
 Nhãn dự đoán:
 $
@@ -262,7 +259,7 @@ $
 $
 
 % ==================================================
-\textbf{Hàm mục tiêu và tối ưu}
+% \textbf{Hàm mục tiêu và tối ưu}
 
 \textbf{Hàm hợp lý}
 
@@ -274,20 +271,20 @@ $
 
 \textbf{Hàm mất mát Cross-Entropy}
 
-Hàm mất mát được xây dựng bằng cách lấy log và đổi dấu:
+% Hàm mất mát được xây dựng bằng cách lấy log và đổi dấu:
 
 $
 L(W) = -\sum_{n=1}^{N}\sum_{k=1}^{K} y_{n,k}\log(\hat{y}_{n,k})
 $
 
-Mục tiêu là tìm $W$ sao cho $L(W)$ đạt giá trị nhỏ nhất.
+Tìm $W$ sao cho $L(W)$ đạt giá trị nhỏ nhất.
 
 % ==================================================
-\textbf{Ước lượng tham số}
+% \textbf{Ước lượng tham số}
 
 \textbf{Gradient Descent}
 
-Gradient của hàm mất mát đối với đầu vào softmax:
+Gradient loss với softmax:
 $
 \frac{\partial L}{\partial z} = (\hat{y} - y)^T
 $
@@ -309,11 +306,11 @@ $
 
 % SECTION 4: MLP
 % ======================================================
-\section{MLP}
+\section{MLP (ANN)}
 
 
-\textbf{Core idea:}
-deep learning = nonlinear feature extraction + simple linear head.
+% \textbf{Core idea:}
+% deep learning = nonlinear feature extraction + simple linear head.
 
 % ======================================================
 
@@ -323,8 +320,8 @@ Let $h^{(0)} = x$;
 $
 h^{(l)} = \phi\left(W^{(l)}h^{(l-1)} + b^{(l)}\right),
 \\ l = 1,\dots,L
-$
-where $\phi(\cdot)$ is a nonlinear activation function.
+$;
+ $\phi(\cdot)$ is  activation function.
 
 \textbf{Output Layer}
 
@@ -394,8 +391,8 @@ $
 % SECTION 5: TRAINING ANN
 \section{Training ANN}
 
-\textbf{Problem Setup}
-Given a dataset $\{(x_i, y_i)\}_{i=1}^n$ and a model
+\textbf{Problem Setup:}
+Dataset $\{(x_i, y_i)\}_{i=1}^n$, a model
 $\hat{y}_i = f_\theta(x_i)$, training aims to solve:
 
 $
@@ -433,8 +430,8 @@ L_{\text{BCE}} = -\frac{1}{n}\sum_{i=1}^n
 [y_i \log p_i + (1-y_i)\log(1-p_i)].
 $
 
-Categorical Cross-Entropy:
-For $K$ classes with one-hot labels:
+Categorical CE:
+For $K$ classes one-hot:
 
 $
 L_{\text{CE}} = -\frac{1}{n}\sum_{i=1}^n \sum_{k=1}^K y_{ik}\log p_{ik}.
@@ -449,10 +446,10 @@ $
  {Update}: update param with optimizer.
 
 
-\textbf{SGD:}
-$
-\theta \leftarrow \theta - \eta \nabla_\theta L.
-$
+% \textbf{SGD:}
+% $
+% \theta \leftarrow \theta - \eta \nabla_\theta L.
+% $
 
 \textbf{Training Algorithm (SGD)}
 
@@ -514,7 +511,7 @@ $
 % SECTION 6: SVM PRIMAL PROBLEM
 \section{SVM primal problem}
 
-\textbf{Đầu vào}
+% \textbf{Đầu vào}
 
 Ma trận dữ liệu:  $X \in \mathbb{R}^{N \times (M-1)}$.
     
@@ -525,30 +522,30 @@ Nhãn:
     $
 
 
-\textbf{Mục tiêu}
-Xác định đường biên quyết định:
+% \textbf{Mục tiêu}
+Xác định boundary
 $
 \mathbf{w}^T \mathbf{x} + b = 0
 $
 sao cho \textbf{lề (margin)} giữa hai lớp là lớn nhất.
 
 
-\textbf{Khoảng cách từ điểm đến đường thẳng}
+% \textbf{Khoảng cách từ điểm đến đường thẳng}
 
-Siêu phẳng trong không gian đặc trưng $(M-1)$ chiều:
+Siêu phẳng $(M-1)$ chiều:
 $
 \mathbf{w}^T \mathbf{x} + b = 0
 $
 
-Khoảng cách có dấu từ điểm $\mathbf{x}$ đến siêu phẳng:
+Từ $\mathbf{x}$ đến siêu phẳng:
 $
 d(\mathbf{x}) = \frac{\mathbf{w}^T \mathbf{x} + b}{\|\mathbf{w}\|}
 $
 
-Khoảng cách hình học:
-$
-|d(\mathbf{x})| = \frac{|\mathbf{w}^T \mathbf{x} + b|}{\|\mathbf{w}\|}
-$
+% Khoảng cách hình học:
+% $
+% |d(\mathbf{x})| = \frac{|\mathbf{w}^T \mathbf{x} + b|}{\|\mathbf{w}\|}
+% $
 
 \textbf{Hàm quyết định:}
 $
@@ -566,14 +563,13 @@ m_{\mathbf{w}} = \min_{n} \frac{t_n(\mathbf{w}^T \mathbf{x}_n + b)}{\|\mathbf{w}
 $
 
 \textbf{Cực đại lề:}
-Có thể chuẩn hóa sao cho:
+chuẩn hóa
 $
-t_n(\mathbf{w}^T \mathbf{x}_n + b) \ge 1, \quad \forall n
+t_n(\mathbf{w}^T \mathbf{x}_n + b) \ge 1
 $
 
 \textbf{Hàm mục tiêu}
-
-Cực đại lề tương đương với bài toán:
+Cực đại lề tương đương:
 $
 \min_{\mathbf{w}, b} \frac{1}{2}\|\mathbf{w}\|^2
 $
@@ -617,8 +613,6 @@ $
 
 
 \textbf{Hàm Lagrangian}
-
-Hàm Lagrangian của bài:
 $
 L(w,b,\alpha)
 =
@@ -634,7 +628,7 @@ $
 \alpha_n \ge 0,\quad n=1,\dots,N.
 $
 
-\textbf{Điều kiện KKT}
+% \textbf{Điều kiện KKT}
 
 \textbf{(KKT-1)} ĐK dừng:
 $
@@ -692,21 +686,18 @@ K_{rc} = t_r t_c x_r^T x_c.
 $
 
 % =====================================================
-\textbf{Tiêu chuẩn Slater}
-
-Vì tồn tại $(w,b)$ sao cho
-$
+\textbf{Tiêu chuẩn Slater:}
+Vì tồn tại $(w,b):
 t_n(w^Tx_n+b) > 1,\;\forall n,
 $
-nên bài toán thỏa tiêu chuẩn Slater.
+nên bài toán thỏa Slater.
 Do đó:
 $
 \min_{w,b} \max_{\alpha} L(w,b,\alpha)
 =
 \max_{\alpha} \min_{w,b} L(w,b,\alpha).
-$
-
-Suy ra \textbf{duality gap bằng 0}.
+$;
+ {duality gap = 0}.
 
 % =====================================================
 \textbf{Công thức dự báo}
@@ -718,10 +709,10 @@ y(x)
 \sum_{n\in S} \alpha_n t_n x_n^T x + b.
 $
 
-Nhãn dự báo:
-$
-\hat{y} = \operatorname{sign}(y(x)).
-$
+% Nhãn dự báo:
+% $
+% \hat{y} = \operatorname{sign}(y(x)).
+% $
 
 
 
@@ -731,39 +722,36 @@ $
 \section{SVM soft margin}
 
 
-\textbf{Ràng buộc mới}
-
+\textbf{Ràng buộc mới:}
 $
-t_n(w^T x_n + b) \ge 1 - \xi_n, \quad n=1,\dots,N, \\
+t_n(w^T x_n + b) \ge 1 - \xi_n, \quad n=1,\dots,N, \quad
 \xi_n \ge 0.
 $
 
-\textbf{Hàm mục tiêu mới}
+\textbf{Hàm mục tiêu mới:} $C>0$  siêu tham số
 
 $
 f_0(w,b,\xi) =
 \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n,
 $
- $C > 0$ là siêu tham số điều chỉnh mức phạt.
+%  $C > 0$ là siêu tham số điều chỉnh mức phạt.
 
-\textbf{Bài toán tối ưu}
-
+\textbf{Bài toán:}
 $
 \min_{w,b,\xi} \quad 
 \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n \\
 \text{s.t.} \quad 
-t_n(w^T x_n + b) \ge 1 - \xi_n, \\
- \xi_n \ge 0,\quad n=1,\dots,N.
+t_n(w^T x_n + b) \ge 1 - \xi_n, 
+ \xi_n \ge 0,\forall n.
 $
 
 %------------------------------------------------
-\textbf{Bài toán đối ngẫu}
+% \textbf{Bài toán đối ngẫu}
 
 \textbf{Hàm Lagrangian:}
-
 $
 L(w,b,\xi,\alpha,\mu) =
-\frac{1}{2}\|w\|^2 + C\sum_{n=1}^N \xi_n \\ - \sum_{n=1}^N \alpha_n[t_n(w^T x_n + b)-1+\xi_n]\\ - \sum_{n=1}^N \mu_n \xi_n.
+\frac{1}{2}\|w\|^2 + C\sum_{n=1}^N \xi_n  - \sum_{n=1}^N \alpha_n[t_n(w^T x_n + b)-1+\xi_n] - \sum_{n=1}^N \mu_n \xi_n.
 $
 
 \textbf{Điều kiện KKT}
@@ -779,35 +767,33 @@ $
 $
 \min_{\alpha}  
 \frac{1}{2}\sum_{r=1}^N\sum_{c=1}^N
-\alpha_r \alpha_c t_r t_c x_r^T x_c\\
-- \sum_{n=1}^N \alpha_n \\
-\text{s.t.} \quad 
+\alpha_r \alpha_c t_r t_c x_r^T x_c
+- \sum_{n=1}^N \alpha_n 
+\text{ s.t. }  
 0 \le \alpha_n \le C, 
- \sum_{n=1}^N \alpha_n t_n = 0.
+ \sum_{n=1}^N \alpha_n t_n = 0
 $
 
 %------------------------------------------------
-\textbf{Công thức dự báo}
-
+\textbf{Công thức dự báo:}
 Sau khi tìm được $\alpha$ và $b$, hàm quyết định là:
 $
 y(x) = \sum_{n \in S} \alpha_n t_n x_n^T x + b,
 $
-trong đó $S$ là tập các véc-tơ hỗ trợ.
+% trong đó $S$ là tập các véc-tơ hỗ trợ.
 
-Nhãn dự báo:
-$
-\text{label} = \mathrm{sign}(y(x)).
-$
+% Nhãn dự báo:
+% $
+% \text{label} = \mathrm{sign}(y(x)).
+% $
 
 %------------------------------------------------
-\textbf{Cài đặt với CVXOPT}
-
+\textbf{Cài đặt với CVXOPT:}
 Bài toán đối ngẫu có dạng chuẩn:
 $
 \min_{\alpha} \quad
 \frac{1}{2}\alpha^T K \alpha + p^T \alpha
-\\ \text{s.t.} \quad
+ \text{ s.t.} \quad
 G\alpha \le h,\; A\alpha = b.
 $
 
@@ -844,37 +830,37 @@ $
 y = K_{BS}[\alpha_S \odot t_S] + b
 $
 
-Nhãn dự đoán:
-$
-\text{label} = \text{sign}(y)
-$
+% Nhãn dự đoán:
+% $
+% \text{label} = \text{sign}(y)
+% $
 
 
-\textbf{Phương pháp Kernel:} Tính giá trị
+Tính
 $
 \langle \Phi(x_i), \Phi(x_j) \rangle
-$ thông qua  kernel:
+$  qua  kernel:
 $
 k(x_i,x_j)
 $
 
-\textbf{Điều kiện Mercer:}
-Một hàm $k(x_i,x_j)$ là kernel hợp lệ nếu:  Đối xứng: $k(x_i,x_j) = k(x_j,x_i)$;
+\textbf{Mercer:}
+$k(x_i,x_j)$ là kernel hợp lệ nếu:  Đối xứng: $k(x_i,x_j) = k(x_j,x_i)$;
  Bán định dương:
 $
 \sum_{i=1}^N \sum_{j=1}^N c_i c_j k(x_i,x_j) \ge 0
 $
 
-\textbf{Huấn luyện và dự báo với Kernel}
+% \textbf{Huấn luyện và dự báo với Kernel}
 
-$
-K_{Gram} =
-\begin{bmatrix}
-k(x_1,x_1) & \cdots & k(x_1,x_N)\\
-\vdots & \ddots & \vdots\\
-k(x_N,x_1) & \cdots & k(x_N,x_N)
-\end{bmatrix}
-$
+% $
+% K_{Gram} =
+% \begin{bmatrix}
+% k(x_1,x_1) & \cdots & k(x_1,x_N)\\
+% \vdots & \ddots & \vdots\\
+% k(x_N,x_1) & \cdots & k(x_N,x_N)
+% \end{bmatrix}
+% $
 
 \textbf{Các kernel thông dụng}
 
@@ -908,10 +894,7 @@ $
 
 \section{PCA}
 
-Tập dữ liệu  $X \in \mathbb{R}^{N \times D}$;
-
-
-\textbf{Mục tiêu:}  Giảm số chiều từ $D$ xuống $M$ với $M \ll D$;
+Tập dữ liệu  $X \in \mathbb{R}^{N \times D}$;   Giảm số chiều từ $D$ xuống $M$ với $M \ll D$;
  Các đặc trưng mới không còn tương quan tuyến tính. 
 
 \textbf{Phương sai và hiệp phương sai:}
@@ -981,8 +964,8 @@ $
 X = U S V^T
 $
 
-PCA thực hiện eigen-decomposition trên ma trận hiệp phương sai;
- SVD phân rã trực tiếp trên ma trận dữ liệu và có độ ổn định số cao hơn.
+% PCA thực hiện eigen-decomposition trên ma trận hiệp phương sai;
+%  SVD phân rã trực tiếp trên ma trận dữ liệu và có độ ổn định số cao hơn.
 
 
 
@@ -1116,8 +1099,7 @@ $|F_{\text{sub}}|=d/3$ for regression.
 misclassified by previous ones. Reduce both bias
 and variance.
 
-\textbf{AdaBoost}
-
+\textbf{AdaBoost:}
 For binary classification with $y_i \in \{-1,+1\}$, AdaBoost maintains a weight
 distribution over training samples. At iteration $t$, a weak learner $h_t$ is
 trained using weighted data.   final classifier is
@@ -1150,16 +1132,17 @@ are then used as inputs for   meta-model.
 
 \section{Genetic algorithm}
 
-A solution is encoded as a chromosome. 
-{Binary encoding}
-{Real-valued encoding}
-{Permutation encoding}
-{Tree encoding}
+Solution encoded as chromosome. 
 
-\textbf{Fitness Function}
+Encoding: 
+Binary; 
+Real-valued; Tree
+Permutation; 
+% Tree 
 
+\textbf{Fitness Function:}
 Eval quality of solution $x$.
-For minimization problems, a transformation is typically applied, 
+For min problems, transformation e.g. 
 $
 f_{\text{max}}(x) = \frac{1}{1 + f_{\text{min}}(x)}
 $
