@@ -271,13 +271,11 @@
 
   \textbf{Hàm mất mát Cross-Entropy}
 
-  % Hàm mất mát được xây dựng bằng cách lấy log và đổi dấu:
+  Minimize negative log-likelihood function
 
   $
     L(W) = -\sum_{n=1}^{N}\sum_{k=1}^{K} y_{n,k}\log(\hat{y}_{n,k})
   $
-
-  Tìm $W$ sao cho $L(W)$ đạt giá trị nhỏ nhất.
 
   % ==================================================
   % \textbf{Ước lượng tham số}
@@ -359,18 +357,19 @@
 
   \textbf{Activation Functions}
 
-  Sigmoid
+  Sigmoid (Vanishing, no 0-centered):
   $
     \sigma(z)=\frac{1}{1+e^{-z}}
   $;
   $
     \tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
-  $
+  $ (Saturation)
 
 
   $
     \mathrm{ReLU}(z)=\max(0,z)
-  $;
+  $; (Dead neuron)
+
   $
     \mathrm{SiLU}(z)=z\sigma(z)
   $
@@ -398,11 +397,11 @@
 
   $
     L_{\text{MSE}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2.
-  $
+  $ (outliner sensitive)
 
   $
     L_{\text{MAE}} = \frac{1}{n}\sum_{i=1}^n |y_i - \hat{y}_i|.
-  $
+  $ (non 0 differentiable, converge slower.)
 
   Huber Loss: $e_i = y_i - \hat{y}_i$
 
@@ -431,12 +430,13 @@
   $
 
   \textbf{Training Process:}
+  {Shuffle dataset}
 
   {Forward}: compute predictions and loss.
 
-    {Backward}: compute grads via backprop.
+  {Backward}: compute grads via backprop.
 
-    {Update}: update param with optimizer.
+  {Update}: update param with optimizer.
 
 
   % \textbf{SGD:}
@@ -500,6 +500,40 @@
   % Gradient Issues
   % (Vanishing/exploding gradients): ReLU activations,
   % residual connections,  gradient clipping.
+
+  \section{Layers}
+
+\textbf{Fully connected Layer}
+
+$
+y = W \times x +b, 
+ \Delta X = W^T \times \Delta y 
+$
+
+$
+\Delta W = \Delta y \times x^T, 
+\Delta b = \Delta y
+$
+
+\textbf{CNN}
+
+$
+o_1 = \lfloor \frac{i_1 + 2p_1 - k_1}{s_1} \rfloor + 1
+$
+
+$
+Y = X  \ast Rot180^\circ(W) , \ast
+$ is convolution, not matmul.
+
+$
+\Delta W = Rot180^\circ(\Delta Y) \ast X
+$, reverse for $\Delta X$
+
+
+
+
+
+
 
   % SECTION 6: SVM PRIMAL PROBLEM
   \section{SVM primal problem}
