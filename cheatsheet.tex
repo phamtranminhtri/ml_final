@@ -625,6 +625,8 @@ $, no padding;
     \text{s.t.} \quad
     t_n(\mathbf{w}^T \mathbf{x}_n + b) \ge 1,\quad \forall n
   $
+  
+  Hàm mục tiêu và các hàm ràng buộc: lồi và khả vi
 
   \textbf{CVXOPT:}
   $
@@ -665,6 +667,12 @@ $, no padding;
   $
     \alpha_n \ge 0
   $
+
+  Convex theo w, b ($\| w \| ^2$ bán định dương)
+  
+  Concave theo $\alpha$, là hàm affine theo $\alpha$
+
+  Là chặn dưới của hàm mục tiêu gốc
 
   % \textbf{Điều kiện KKT}
 
@@ -707,6 +715,8 @@ $, no padding;
     \alpha_r \alpha_c t_r t_c x_r^T x_c.
   $
 
+  Ta cần argmax hàm đối ngẫu
+
   % =====================================================
   \textbf{Bài toán đối ngẫu:} ($
   K_{rc} = t_r t_c x_r^T x_c.
@@ -731,7 +741,7 @@ $, no padding;
     A \alpha=b
   $. Với ${K}={K}_{\text {Gram }} \odot {Y}$
   ($K_{Gram} = XX^T, Y = yy^T
-  $).
+  $), có shape ($N \times N$) - rất lớn
 
   $p_{N\times 1}$ chỉ chứa $-1$; $h_{N\times 1}$ chỉ chứa $0$
 
@@ -785,13 +795,14 @@ $, no padding;
     \xi_n \ge 0.
   $
 
-  \textbf{Hàm mục tiêu mới:} $C>0$  siêu tham số
+  \textbf{Hàm mục tiêu mới:}
 
   $
     f_0(w,b,\xi) =
     \frac{1}{2}\|w\|^2 + C \sum_{n=1}^N \xi_n,
   $
-  %  $C > 0$ là siêu tham số điều chỉnh mức phạt.
+
+  $C>0$  siêu tham số: C càng nhỏ thì mức phạt càng thấp, và lề rộng hơn với kỳ vọng tổng quát hóa tốt hơn
 
   \textbf{Bài toán:}
   $
@@ -837,12 +848,10 @@ $, no padding;
   $
     y(x) = \sum_{n \in S} \alpha_n t_n x_n^T x + b
   $
-  % trong đó $S$ là tập các véc-tơ hỗ trợ.
 
-  % Nhãn dự báo:
-  % $
-  % \text{label} = \mathrm{sign}(y(x)).
-  % $
+  $
+    b=\frac{1}{N_{\mathcal{M}}} \sum_{m \in \mathcal{M}}\left(t_m-\sum_{n \in \mathcal{S}} \alpha_n t_n \boldsymbol{x}_n^T \boldsymbol{x}_m\right)
+  $, M (Margin SupVec Set): $\{t_m y(x_m) = 1\}$
 
   %------------------------------------------------
   \textbf{CVXOPT:}
@@ -932,7 +941,7 @@ $, no padding;
     k(x,x') = (\gamma x^T x' + r)^d
   $
 
-  {RBF (Gaussian)}:
+  {RBF (Radial Basic Function - Gaussian)}:
 
   $
     k(x,x') = \exp(-\gamma \|x-x'\|^2)
