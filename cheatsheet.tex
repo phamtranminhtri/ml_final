@@ -360,19 +360,23 @@
   Sigmoid (Vanishing, no 0-centered):
   $
     \sigma(z)=\frac{1}{1+e^{-z}}
-  $;
+  $; $\sigma' = \sigma(1-\sigma)$
+
   $
     \tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
-  $ (Saturation)
+  $ 
+  $\tanh'=1-\tanh^2$ (Saturation)
 
 
   $
     \mathrm{ReLU}(z)=\max(0,z)
-  $; (Dead neuron)
+  $; $\mathrm{ReLU}' =0$ ($z<0$), $=1$ ($x>0$) (Dead neuron)
 
   $
     \mathrm{SiLU}(z)=z\sigma(z)
-  $
+  $, 
+  
+  $\mathrm{SiLU}'=\sigma(z)+z\sigma(z)(1-\sigma(z))$
 
   $
     \mathrm{LReLU}(z)=
@@ -522,12 +526,17 @@ o_1 = \lfloor \frac{i_1 + 2p_1 - k_1}{s_1} \rfloor + 1
 $
 
 $
-Y = X  \ast Rot180^\circ(W) , \ast
+Y = X  \ast W , \ast
 $ is convolution, not matmul.
 
 $
+\Delta X = Rot180^\circ( W) \ast \Delta Y
+$, full padding;
+
+$
 \Delta W = Rot180^\circ(\Delta Y) \ast X
-$, reverse for $\Delta X$
+$, no padding;
+
 
 
 
@@ -588,6 +597,8 @@ $, reverse for $\Delta X$
   $
     m_{\mathbf{w}} = \min_{n} \frac{t_n(\mathbf{w}^T \mathbf{x}_n + b)}{\|\mathbf{w}\|}
   $
+
+  Chuẩn hóa: $m_{\mathbf{w}} = \frac{1}{\|\mathbf{w}\|}$
 
   \textbf{Cực đại lề:}
   chuẩn hóa
@@ -724,7 +735,7 @@ $, reverse for $\Delta X$
 
   $p_{N\times 1}$ chỉ chứa $-1$; $h_{N\times 1}$ chỉ chứa $0$
 
-  $G_{N\times N}, G_{ii}=-1$; $A_i = y_i; b=[0]$
+  $G_{N\times N}, G_{ii}=-1$; $A_{1\times N} = y^T; b_{1\times 1}=[0]$
 
 
   % =====================================================
@@ -941,6 +952,8 @@ $, reverse for $\Delta X$
 
   \section{PCA}
 
+  Chiếu $x$ lên $u$: $l_{xou}=\frac{u^Tx}{||u||}$
+
   Tập dữ liệu  $X \in \mathbb{R}^{N \times D}$;   Giảm số chiều từ $D$ xuống $M$ với $M \ll D$;
   Các đặc trưng mới không còn tương quan tuyến tính.
 
@@ -958,8 +971,8 @@ $, reverse for $\Delta X$
   Ma trận hiệp phương sai:
 
   $
-    S = \frac{1}{N}\sum_{n=1}^{N}(x_n - \mu)(x_n - \mu)^T
-  $
+    S = \frac{1}{N}\sum_{n=1}^{N}(x_n - \mu)(x_n - \mu)^T \\ = Z^TZ = (X-\mu)^T(X-\mu)
+  $ (size $D\times D$)
 
 
   $
@@ -988,10 +1001,11 @@ $, reverse for $\Delta X$
   Trục chính của PCA là các eigenvector của $S$;
   Phương sai tương ứng là các eigenvalue.
 
+  Det: $|A_{2\times 2}|=a_{11}a_{22} - a_{12}a_{21};\\ |A_{3\times 3}|=a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{32}a_{21} - a_{11}a_{23}a_{32} - a_{22}a_{13}a_{31} - a_{12}a_{21}a_{33}$
+
   $
-    {U} = [u_1, u_2, \dots, u_D]
-  $
-  $D=[\lambda_1,\lambda_2,\ldots,\lambda_D]I$
+    {U} = [u_1, u_2, \dots u_D]
+  , D=[\lambda_1,\lambda_2,\ldots,\lambda_D]I$
 
   Tính chất: $\mathbf{U}^T=\mathbf{U}^{-1}$; $\mathbf{S U}=\mathbf{U D}$; $\mathbf{S}=\mathbf{U D U}^{-1}=\mathbf{U D U}^T=\sum_{k=1}^D \lambda_k \boldsymbol{u}_k \boldsymbol{u}_k^T$; $\mathbf{U}^{-1} \mathbf{S U}=\mathbf{U}^T \mathbf{S U}=\mathbf{D}$
 
@@ -1099,6 +1113,8 @@ $, reverse for $\Delta X$
   $
     \mathbf{w} \propto S_W^{-1}(\mathbf{m}_2 - \mathbf{m}_1)
   $
+
+  Cần chuẩn hóa $w$ có độ dài bằng 1.
 
   % ==========================================================
   \textbf{Trường hợp $C$ lớp:}
